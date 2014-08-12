@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.impl;
+package de.adamowicz.sonar.hla.impl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +43,7 @@ public class DefaultSonarConverter implements ISonarConverter {
     private static final String BREAK = "\n";
     private static final String SEP   = ",";
 
+    @Override
     public String getCSVData(List<IProject> projects, List<Measures> measures, boolean cleaned) {
 
         StringBuffer buff = null;

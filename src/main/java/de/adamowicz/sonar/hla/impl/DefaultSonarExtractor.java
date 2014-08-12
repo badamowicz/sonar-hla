@@ -90,11 +90,13 @@ public class DefaultSonarExtractor implements ISonarExtractor {
         LOG.debug("SonarQube host: " + getHostURL() + " Username: " + (getUserName() != null ? getUserName() : "none"));
     }
 
+    @Override
     public String getHostURL() {
 
         return hostURL;
     }
 
+    @Override
     public String getUserName() {
 
         return userName;
@@ -110,6 +112,7 @@ public class DefaultSonarExtractor implements ISonarExtractor {
      * GET /sonartest/api/resources?resource=de.arbeitsagentur.sea.spu.sonar.ojaudit%3Asonar-baojaudit-plugin&metrics=lines,coverage&verbose=false& HTTP/1.1[\r][\n]
      * </pre>
      */
+    @Override
     public IProject getProject(String projectKey) {
 
         Project project = null;
@@ -126,6 +129,7 @@ public class DefaultSonarExtractor implements ISonarExtractor {
         return project;
     }
 
+    @Override
     public List<IProject> getAllProjects() {
 
         ResourceQuery queryAll = null;
@@ -147,6 +151,7 @@ public class DefaultSonarExtractor implements ISonarExtractor {
         return projects;
     }
 
+    @Override
     public List<IProject> getProjects(String projectKeyPattern) {
 
         Pattern pattern = null;
