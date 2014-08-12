@@ -1,7 +1,8 @@
 *.class
+test-output
+target
 
 # Eclipse stuff
-target
 .classpath
 .project
 .settings

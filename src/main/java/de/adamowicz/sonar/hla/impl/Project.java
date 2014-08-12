@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.impl;
+package de.adamowicz.sonar.hla.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ import de.adamowicz.sonar.hla.helper.Converter;
 /**
  * Represents a single project within SonarQube.
  * 
- * @author adamowicb
+ * @author Bernd Adamowicz
  * 
  */
 public class Project implements IProject {
@@ -101,16 +101,19 @@ public class Project implements IProject {
         }
     }
 
+    @Override
     public String getId() {
 
         return id;
     }
 
+    @Override
     public List<Measures> getMeasures() {
 
         return measures != null ? measures : new ArrayList<Measures>();
     }
 
+    @Override
     public String getMeasureValue(Measures measure, boolean cleaned) {
 
         String value = null;

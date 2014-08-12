@@ -24,10 +24,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.impl;
+package de.adamowicz.sonar.hla.impl;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.sonar.wsclient.services.Measure;
+import org.sonar.wsclient.services.Resource;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import de.adamowicz.sonar.hla.api.IProject;
+import de.adamowicz.sonar.hla.api.Measures;
 
 /**
  * Test cases for {@link DefaultSonarExtractor}.
@@ -36,14 +49,71 @@ import org.testng.annotations.Test;
  */
 public class DefaultSonarConverterTest {
 
+    static final Logger           LOG           = Logger.getLogger(DefaultSonarConverterTest.class);
+
+    private Measure               sonarMeasure1 = null;
+    private Measure               sonarMeasure2 = null;
+    private List<Measure>         measureList   = null;
+    private Resource              resource1     = null;
+    private Resource              resource2     = null;
+    private Project               project1      = null;
+    private Project               project2      = null;
+    private List<IProject>        projectList   = null;
+    private DefaultSonarConverter converter     = null;
+    private static final String   KEY_1         = "some.project:key1";
+    private static final String   KEY_2         = "some.project:key2";
+    private static final String   SEPARATOR     = ",";
+
     @BeforeClass
     public void beforeClass() {
 
+        sonarMeasure1 = new Measure();
+        sonarMeasure1.setMetricKey("coverage");
+        sonarMeasure1.setFormattedValue("86.8%");
+
+        sonarMeasure2 = new Measure();
+        sonarMeasure2.setMetricKey("ncloc");
+        sonarMeasure2.setFormattedValue("16754");
+
+        measureList = new ArrayList<Measure>();
+        measureList.add(sonarMeasure1);
+        measureList.add(sonarMeasure2);
+
+        resource1 = new Resource();
+        resource1.setKey(KEY_1);
+        resource1.setMeasures(measureList);
+
+        resource2 = new Resource();
+        resource2.setKey(KEY_2);
+        resource2.setMeasures(measureList);
+
+        project1 = new Project(KEY_1, resource1);
+        project2 = new Project(KEY_2, resource2);
+
+        projectList = new ArrayList<IProject>();
+        projectList.add(project1);
+        projectList.add(project2);
+
+        converter = new DefaultSonarConverter();
     }
 
+    /**
+     * Check if there is CSV data returned at all and perform some plausibility checks.
+     */
     @Test
     public void getCSVData() {
 
-        throw new RuntimeException("Test not implemented");
+        String csvData = null;
+
+        csvData = converter.getCSVData(projectList, Arrays.asList(Measures.values()), false);
+        assertNotNull(csvData, "No CSV data created!");
+
+        LOG.debug("Generated CSV data is:\n" + csvData);
+
+        for (String currLine : csvData.split("\\n")) {
+
+            assertFalse(currLine.startsWith(SEPARATOR), "Separator character must not be at the start of a line!");
+            assertFalse(currLine.endsWith(SEPARATOR), "Separator character must not be at the end of a line!");
+        }
     }
 }
