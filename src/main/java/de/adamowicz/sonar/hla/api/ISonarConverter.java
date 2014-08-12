@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.api;
+package de.adamowicz.sonar.hla.api;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import java.util.List;
  * Instances of this class are capable of converting extracted objects from SonarQube (see {@link ISonarExtractor}) to some other
  * format like XML or CSV.
  * 
- * @author adamowicb
+ * @author Bernd Adamowicz
  * 
  */
 public interface ISonarConverter {

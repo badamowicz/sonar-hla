@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.api;
+package de.adamowicz.sonar.hla.api;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import java.util.List;
  * for all analyzed data like complexity, DCOM or LOC. The values returned by the getter methods in this class will always return
  * string objects! It's up to implementing code to turn those strings into other data types.
  * 
- * @author adamowicb
+ * @author Bernd Adamowicz
  * 
  */
 public interface IProject {

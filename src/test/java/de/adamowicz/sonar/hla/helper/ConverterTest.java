@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.helper;
+package de.adamowicz.sonar.hla.helper;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -32,12 +32,10 @@ import static org.testng.Assert.fail;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import de.adamowicz.sonar.hla.helper.Converter;
-
 /**
  * UTs for {@link Converter} class.
  * 
- * @author adamowicb
+ * @author Bernd Adamowicz
  * 
  */
 public class ConverterTest {

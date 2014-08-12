@@ -24,14 +24,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.api;
+package de.adamowicz.sonar.hla.api;
 
 import java.util.List;
 
 /**
  * Base class which serves as an entry point for accessing SonarQube resources.
  * 
- * @author adamowicb
+ * @author Bernd Adamowicz
  * 
  */
 public interface ISonarExtractor {
