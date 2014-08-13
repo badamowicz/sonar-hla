@@ -37,6 +37,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -74,6 +75,7 @@ public class DefaultSonarConverterTest {
     private static final String   KEY_2             = "some.project:key2";
     private static final String   SEPARATOR         = ",";
     private static final String   QUOT              = "\"";
+    private static final Pattern  PATTERN_ID        = Pattern.compile("DefaultSonarConverter with CSV separator.*");
 
     @BeforeClass
     public void beforeClass() {
@@ -200,5 +202,12 @@ public class DefaultSonarConverterTest {
 
             IOUtils.closeQuietly(is);
         }
+    }
+
+    @Test
+    public void testToString() {
+
+        if (!PATTERN_ID.matcher(converter.toString()).matches())
+            fail("Converter does not identify as expected!");
     }
 }

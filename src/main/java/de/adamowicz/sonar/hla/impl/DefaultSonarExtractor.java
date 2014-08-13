@@ -48,12 +48,14 @@ import de.adamowicz.sonar.hla.api.ISonarExtractor;
  */
 public class DefaultSonarExtractor implements ISonarExtractor {
 
-    static final Logger LOG      = Logger.getLogger(DefaultSonarExtractor.class);
+    private static final String MSG_FOUND = "Found ";
 
-    private Sonar       sonar    = null;
-    private String      hostURL  = null;
-    private String      userName = null;
-    private String      password = null;
+    private static final Logger LOG      = Logger.getLogger(DefaultSonarExtractor.class);
+
+    private Sonar               sonar    = null;
+    private String              hostURL  = null;
+    private String              userName = null;
+    private String              password = null;
 
     /**
      * Don't use constructor.
@@ -132,7 +134,7 @@ public class DefaultSonarExtractor implements ISonarExtractor {
 
         queryAll = ResourceQuery.createForMetrics(null);
         projectsSonar = getSonar().findAll(queryAll);
-        LOG.debug("Found " + projectsSonar.size() + " projects in Sonar.");
+        LOG.debug(MSG_FOUND + projectsSonar.size() + " projects in Sonar.");
 
         projects = new ArrayList<IProject>();
 
@@ -165,7 +167,7 @@ public class DefaultSonarExtractor implements ISonarExtractor {
                 matchingProjects.add(currProject);
         }
 
-        LOG.debug("Found " + matchingProjects.size() + " projects matching pattern " + projectKeyPattern);
+        LOG.debug(MSG_FOUND + matchingProjects.size() + " projects matching pattern " + projectKeyPattern);
         return matchingProjects;
     }
 
@@ -177,6 +179,12 @@ public class DefaultSonarExtractor implements ISonarExtractor {
     private void setSonar(Sonar sonar) {
 
         this.sonar = sonar;
+    }
+
+    @Override
+    public String toString() {
+
+        return "DefaultSonarExtractor Host: " + getHostURL() + " User: " + (getUserName() != null ? getUserName() : "n/a");
     }
 
 }

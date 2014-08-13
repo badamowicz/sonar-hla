@@ -45,7 +45,7 @@ import de.adamowicz.sonar.hla.api.ISonarConverter;
  */
 public class DefaultSonarConverter implements ISonarConverter {
 
-    static final Logger         LOG       = Logger.getLogger(DefaultSonarConverter.class);
+    private static final Logger LOG       = Logger.getLogger(DefaultSonarConverter.class);
 
     private static final String BREAK     = "\n";
     private static final String SEP       = ",";
@@ -62,45 +62,45 @@ public class DefaultSonarConverter implements ISonarConverter {
     @Override
     public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleaned) {
 
-        StringBuffer buff = null;
+        StringBuilder builder = null;
         HLAMeasure currMeasure = null;
         Iterator<HLAMeasure> iterMeasure = null;
 
-        buff = new StringBuffer("Project");
-        buff.append(SEP);
+        builder = new StringBuilder("Project");
+        builder.append(SEP);
         iterMeasure = hlaMeasure.iterator();
 
         while (iterMeasure.hasNext()) {
 
             currMeasure = iterMeasure.next();
-            buff.append(currMeasure.getHeaderName());
+            builder.append(currMeasure.getHeaderName());
 
             if (iterMeasure.hasNext())
-                buff.append(SEP);
+                builder.append(SEP);
         }
 
-        buff.append(BREAK);
+        builder.append(BREAK);
 
         for (IProject currProj : projects) {
 
-            buff.append(currProj.getId());
-            buff.append(SEP);
+            builder.append(currProj.getId());
+            builder.append(SEP);
 
             iterMeasure = hlaMeasure.iterator();
 
             while (iterMeasure.hasNext()) {
 
                 currMeasure = iterMeasure.next();
-                buff.append(currProj.getMeasureValue(currMeasure, cleaned));
+                builder.append(currProj.getMeasureValue(currMeasure, cleaned));
 
                 if (iterMeasure.hasNext())
-                    buff.append(SEP);
+                    builder.append(SEP);
             }
 
-            buff.append(BREAK);
+            builder.append(BREAK);
         }
 
-        return buff.toString();
+        return builder.toString();
     }
 
     @Override
@@ -130,10 +130,10 @@ public class DefaultSonarConverter implements ISonarConverter {
      */
     private String surroundFields(String csvData) {
 
-        StringBuffer surroundedCSV = null;
+        StringBuilder surroundedCSV = null;
         StringTokenizer currTokenizer = null;
 
-        surroundedCSV = new StringBuffer();
+        surroundedCSV = new StringBuilder();
 
         for (String currLine : csvData.split(BREAK)) {
 
@@ -158,5 +158,11 @@ public class DefaultSonarConverter implements ISonarConverter {
             boolean surroundFields) {
 
         return new ByteArrayInputStream(getCSVData(projects, hlaMeasure, cleanValues, surroundFields).getBytes());
+    }
+
+    @Override
+    public String toString() {
+
+        return "DefaultSonarConverter with CSV separator: " + SEP;
     }
 }

@@ -24,15 +24,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.impl;
+package de.adamowicz.sonar.hla.impl;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
@@ -48,14 +50,16 @@ import de.adamowicz.sonar.hla.api.HLAMeasure;
  */
 public class ProjectTest {
 
-    private static final String VALUE_LOCS     = "4567";
-    private static final String VALUE_COVERAGE = "75.0%";
-    private Resource            resource       = null;
-    private Measure             measure1       = null;
-    private Measure             measure2       = null;
-    private List<Measure>       measureList    = null;
-    private Project             project        = null;
-    private static final String ID             = "some:id";
+    private Resource             resource       = null;
+    private Measure              measure1       = null;
+    private Measure              measure2       = null;
+    private List<Measure>        measureList    = null;
+    private Project              project        = null;
+
+    private static final String  ID             = "some:id";
+    private static final String  VALUE_LOCS     = "4567";
+    private static final String  VALUE_COVERAGE = "75.0%";
+    private static final Pattern PATTERN_ID     = Pattern.compile("Project.*ID.*");
 
     @BeforeClass
     public void beforeClass() {
@@ -113,8 +117,8 @@ public class ProjectTest {
     @Test
     public void getMeasureValueClean() {
 
-        assertEquals(project.getMeasureValue(HLAMeasure.COVERAGE, true), VALUE_COVERAGE.substring(0, VALUE_COVERAGE.length() - 1),
-                "Cleaned value not returned as expected!");
+        assertEquals(project.getMeasureValue(HLAMeasure.COVERAGE, true),
+                VALUE_COVERAGE.substring(0, VALUE_COVERAGE.length() - 1), "Cleaned value not returned as expected!");
     }
 
     /**
@@ -127,5 +131,12 @@ public class ProjectTest {
 
         notAvailable = project.getMeasureValue(HLAMeasure.CMPLX, false);
         assertTrue(notAvailable != null && !notAvailable.isEmpty(), "No default string returned for non existing value!");
+    }
+
+    @Test
+    public void testToString() {
+
+        if (!PATTERN_ID.matcher(project.toString()).matches())
+            fail("Project does not identify as expected!");
     }
 }

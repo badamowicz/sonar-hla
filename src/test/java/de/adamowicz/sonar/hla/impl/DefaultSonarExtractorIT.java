@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.impl;
+package de.adamowicz.sonar.hla.impl;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -35,12 +35,13 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarConverter;
-import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
- * Integration tests for {@link DefaultSonarExtractor}. This test needs a running SonarQube for working properly.
+ * Integration tests for {@link DefaultSonarExtractor}. This test needs a running SonarQube for working properly. See also
+ * {@link DefaultSonarConverterTest} for more UTs.
  * 
  * Created Aug 12, 2014 10:03:27 AM by bernd
  */

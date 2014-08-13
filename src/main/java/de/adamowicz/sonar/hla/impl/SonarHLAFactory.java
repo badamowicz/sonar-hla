@@ -40,6 +40,13 @@ public class SonarHLAFactory {
     private static ISonarConverter converterInstance = null;
 
     /**
+     * All static here. So don't use.
+     */
+    private SonarHLAFactory() {
+
+    }
+
+    /**
      * Retrieve an instance of an {@link ISonarConverter} object.
      * 
      * @return A singleton instance of {@link ISonarConverter}.

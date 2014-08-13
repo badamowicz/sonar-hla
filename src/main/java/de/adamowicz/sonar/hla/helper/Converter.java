@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.helper;
+package de.adamowicz.sonar.hla.helper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +37,13 @@ import java.util.Map;
  */
 public class Converter {
 
+    /**
+     * All static here. So don't use.
+     */
+    private Converter() {
+
+    }
+
     public static final String              EMPTY                = "";
     public static final Map<String, String> CHARS_TO_BE_REPLACED = new HashMap<String, String>() {
 
@@ -47,13 +54,6 @@ public class Converter {
                                                                          put(",", ".");
                                                                      }
                                                                  };
-
-    /**
-     * All static here. So don't use.
-     */
-    private Converter() {
-
-    }
 
     /**
      * Method will remove any non-numeric characters like '%' from the given string. With a cleaned value it will be possible to

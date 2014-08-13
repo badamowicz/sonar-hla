@@ -47,7 +47,7 @@ import de.adamowicz.sonar.hla.helper.Converter;
  */
 public class Project implements IProject {
 
-    static final Logger             LOG                 = Logger.getLogger(Project.class);
+    private static final Logger     LOG                 = Logger.getLogger(Project.class);
 
     private static final String     VALUE_NOT_AVAILABLE = "n/a";
     private String                  id                  = null;
@@ -55,6 +55,9 @@ public class Project implements IProject {
     private Map<HLAMeasure, String> values              = null;
     private Resource                resource            = null;
 
+    /**
+     * Don't use constructor. Use {@link Project#Project(String, Resource)} instead.
+     */
     private Project() {
 
     }
@@ -146,5 +149,11 @@ public class Project implements IProject {
     private void setMeasures(List<HLAMeasure> hlaMeasure) {
 
         this.hlaMeasure = hlaMeasure;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Project (HLA), ID: " + getId();
     }
 }
