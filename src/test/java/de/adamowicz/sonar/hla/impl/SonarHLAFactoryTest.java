@@ -24,44 +24,57 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.impl;
+package de.adamowicz.sonar.hla.impl;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNotSame;
+import static org.testng.Assert.assertSame;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import de.adamowicz.sonar.hla.api.ISonarConverter;
 import de.adamowicz.sonar.hla.api.ISonarExtractor;
 
 /**
- * UTs for {@link SonarExtractorFactory}.
+ * UTs for {@link SonarHLAFactory}.
  * 
  * @author Bernd Adamowicz
  * 
  */
-public class SonarExtractorFactoryTest {
+public class SonarHLAFactoryTest {
 
-    private static final String PASSWORD = "secret";
-    private static final String USER = "user";
+    private static final String PASSWORD   = "secret";
+    private static final String USER       = "user";
     private static final String SOME_URL   = "/some/url";
     private ISonarExtractor     extractor1 = null;
     private ISonarExtractor     extractor2 = null;
+    private ISonarConverter     converter  = null;
 
     @BeforeClass
     public void beforeClass() {
 
-        extractor1 = SonarExtractorFactory.getExtractor(SOME_URL);
+        extractor1 = SonarHLAFactory.getExtractor(SOME_URL);
         assertNotNull(extractor1, "Extractor not initialized!");
-        extractor2 = SonarExtractorFactory.getExtractor(SOME_URL, USER, PASSWORD);
+
+        extractor2 = SonarHLAFactory.getExtractor(SOME_URL, USER, PASSWORD);
         assertNotNull(extractor2, "Extractor not initialized!");
+
+        converter = SonarHLAFactory.getConverterInstance();
+        assertNotNull(converter, "Converter not initialized!");
     }
 
     @Test
-    public void testObjectNotSame() {
+    public void testExtractorNotSame() {
 
-        assertNotSame(SonarExtractorFactory.getExtractor(SOME_URL), extractor1, "Factory must not return singletons!");
-        assertNotSame(SonarExtractorFactory.getExtractor(SOME_URL, USER, PASSWORD), extractor2,
-                "Factory must not return singletons!");
+        assertNotSame(SonarHLAFactory.getExtractor(SOME_URL), extractor1, "Factory must not return singletons for converter!");
+        assertNotSame(SonarHLAFactory.getExtractor(SOME_URL, USER, PASSWORD), extractor2,
+                "Factory must not return singletons for converter!");
+    }
+
+    @Test
+    public void testConverterSingleton() {
+
+        assertSame(converter, SonarHLAFactory.getConverterInstance(), "Factory did not return a singleton for converter!");
     }
 }

@@ -31,6 +31,8 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import de.adamowicz.sonar.hla.api.HLAMeasure;
 import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarConverter;
@@ -42,8 +44,18 @@ import de.adamowicz.sonar.hla.api.ISonarConverter;
  */
 public class DefaultSonarConverter implements ISonarConverter {
 
+    static final Logger         LOG   = Logger.getLogger(DefaultSonarConverter.class);
+
     private static final String BREAK = "\n";
     private static final String SEP   = ",";
+
+    /**
+     * Don't use constructor. Obtain instances of this type using {@link SonarHLAFactory} methods.
+     */
+    DefaultSonarConverter() {
+
+        LOG.debug("New DefaultSonarConverter instance created.");
+    }
 
     @Override
     public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleaned) {
