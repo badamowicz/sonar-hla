@@ -26,13 +26,18 @@
  */
 package de.adamowicz.sonar.hla.impl;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
@@ -64,6 +69,7 @@ public class DefaultSonarConverterTest {
     private static final String   KEY_1         = "some.project:key1";
     private static final String   KEY_2         = "some.project:key2";
     private static final String   SEPARATOR     = ",";
+    private String                csvData       = null;
 
     @BeforeClass
     public void beforeClass() {
@@ -109,8 +115,6 @@ public class DefaultSonarConverterTest {
     @Test
     public void getCSVData() {
 
-        String csvData = null;
-
         csvData = converter.getCSVData(projectList, Arrays.asList(HLAMeasure.values()), false);
         assertNotNull(csvData, "No CSV data created!");
 
@@ -120,6 +124,31 @@ public class DefaultSonarConverterTest {
 
             assertFalse(currLine.startsWith(SEPARATOR), "Separator character must not be at the start of a line!");
             assertFalse(currLine.endsWith(SEPARATOR), "Separator character must not be at the end of a line!");
+        }
+    }
+
+    @Test(dependsOnMethods = { "getCSVData" })
+    public void getCSVDataAsStream() {
+
+        InputStream is = null;
+        StringWriter sw = null;
+
+        try {
+
+            is = converter.getCSVDataAsStream(projectList, Arrays.asList(HLAMeasure.values()), false);
+            assertNotNull(is, "No input stream generated!");
+
+            sw = new StringWriter();
+            IOUtils.copy(is, sw);
+            assertEquals(sw.toString(), csvData, "Stream does not contain same content as generated data!");
+
+        } catch (Exception e) {
+
+            fail("Failed creating input stream from CSV data!", e);
+
+        } finally {
+
+            IOUtils.closeQuietly(is);
         }
     }
 }

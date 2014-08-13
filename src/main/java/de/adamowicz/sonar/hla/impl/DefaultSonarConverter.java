@@ -26,12 +26,14 @@
  */
 package de.adamowicz.sonar.hla.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarConverter;
-import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
  * Default implementation for {@link ISonarConverter}.
@@ -85,5 +87,11 @@ public class DefaultSonarConverter implements ISonarConverter {
         }
 
         return buff.toString();
+    }
+
+    @Override
+    public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues) {
+
+        return new ByteArrayInputStream(getCSVData(projects, hlaMeasure, cleanValues).getBytes());
     }
 }

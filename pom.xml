@@ -26,7 +26,7 @@
     <connection>scm:git:ssh://github.com:badamowicz/sonar-hla.git</connection>
     <developerConnection>scm:git:ssh://github.com:badamowicz/sonar-hla.git</developerConnection>
   </scm>
-  
+
   <developers>
     <developer>
       <id>badamowicz</id>
@@ -63,6 +63,11 @@
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
       <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
@@ -114,6 +119,7 @@
             <configuration>
               <includes>
                 <include>**/*IT.java</include>
+                <include>**/*Test.java</include>
               </includes>
             </configuration>
           </plugin>

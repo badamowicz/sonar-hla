@@ -26,6 +26,7 @@
  */
 package de.adamowicz.sonar.hla.api;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -46,4 +47,14 @@ public interface ISonarConverter {
      * @return The string containing the CSV data.
      */
     public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
+
+    /**
+     * Convert the given projects into an {@link InputStream} of CSV data.
+     * 
+     * @param projects A list of projects.
+     * @param hlaMeasure The metrics to use.
+     * @param When set to true, no non-numeric characters will be contained.
+     * @return The {@link InputStream} containing the CSV data.
+     */
+    public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
 }
