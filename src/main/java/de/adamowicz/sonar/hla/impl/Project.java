@@ -35,8 +35,8 @@ import org.apache.log4j.Logger;
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
 
-import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.HLAMeasure;
+import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.helper.Converter;
 
 /**
@@ -47,13 +47,13 @@ import de.adamowicz.sonar.hla.helper.Converter;
  */
 public class Project implements IProject {
 
-    static final Logger           LOG                 = Logger.getLogger(Project.class);
+    static final Logger             LOG                 = Logger.getLogger(Project.class);
 
-    private static final String   VALUE_NOT_AVAILABLE = "n/a";
-    private String                id                  = null;
-    private List<HLAMeasure>        hLAMeasure            = null;
+    private static final String     VALUE_NOT_AVAILABLE = "n/a";
+    private String                  id                  = null;
+    private List<HLAMeasure>        hlaMeasure          = null;
     private Map<HLAMeasure, String> values              = null;
-    private Resource              resource            = null;
+    private Resource                resource            = null;
 
     private Project() {
 
@@ -110,7 +110,7 @@ public class Project implements IProject {
     @Override
     public List<HLAMeasure> getMeasures() {
 
-        return hLAMeasure != null ? hLAMeasure : new ArrayList<HLAMeasure>();
+        return hlaMeasure != null ? hlaMeasure : new ArrayList<HLAMeasure>();
     }
 
     @Override
@@ -145,6 +145,6 @@ public class Project implements IProject {
 
     private void setMeasures(List<HLAMeasure> hlaMeasure) {
 
-        this.hLAMeasure = hlaMeasure;
+        this.hlaMeasure = hlaMeasure;
     }
 }

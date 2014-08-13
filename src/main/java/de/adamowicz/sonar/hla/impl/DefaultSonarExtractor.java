@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.impl;
+package de.adamowicz.sonar.hla.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +36,9 @@ import org.sonar.wsclient.Sonar;
 import org.sonar.wsclient.services.Resource;
 import org.sonar.wsclient.services.ResourceQuery;
 
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarExtractor;
-import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
  * Concrete implementation of the {@link ISonarExtractor}. Accesses SonarQube's web services.
@@ -107,11 +107,6 @@ public class DefaultSonarExtractor implements ISonarExtractor {
         return password;
     }
 
-    /**
-     * <pre>
-     * GET /sonartest/api/resources?resource=de.arbeitsagentur.sea.spu.sonar.ojaudit%3Asonar-baojaudit-plugin&metrics=lines,coverage&verbose=false& HTTP/1.1[\r][\n]
-     * </pre>
-     */
     @Override
     public IProject getProject(String projectKey) {
 
@@ -119,8 +114,7 @@ public class DefaultSonarExtractor implements ISonarExtractor {
         Resource projResource = null;
         ResourceQuery query = null;
 
-        query = ResourceQuery.createForMetrics(projectKey, HLAMeasure.LOCS.getSonarName(), HLAMeasure.COVERAGE.getSonarName(),
-                HLAMeasure.DUPLINES.getSonarName(), HLAMeasure.CMPLX.getSonarName());
+        query = ResourceQuery.createForMetrics(projectKey, HLAMeasure.getSonarNames());
         projResource = getSonar().find(query);
         project = new Project(projectKey, projResource);
 

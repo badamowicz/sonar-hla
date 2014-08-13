@@ -39,8 +39,8 @@ import org.sonar.wsclient.services.Resource;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.HLAMeasure;
+import de.adamowicz.sonar.hla.api.IProject;
 
 /**
  * Test cases for {@link DefaultSonarExtractor}.
@@ -53,6 +53,7 @@ public class DefaultSonarConverterTest {
 
     private Measure               sonarMeasure1 = null;
     private Measure               sonarMeasure2 = null;
+    private Measure               sonarMeasure3 = null;
     private List<Measure>         measureList   = null;
     private Resource              resource1     = null;
     private Resource              resource2     = null;
@@ -75,9 +76,14 @@ public class DefaultSonarConverterTest {
         sonarMeasure2.setMetricKey("ncloc");
         sonarMeasure2.setFormattedValue("16754");
 
+        sonarMeasure3 = new Measure();
+        sonarMeasure3.setMetricKey("violations");
+        sonarMeasure3.setFormattedValue("19");
+
         measureList = new ArrayList<Measure>();
         measureList.add(sonarMeasure1);
         measureList.add(sonarMeasure2);
+        measureList.add(sonarMeasure3);
 
         resource1 = new Resource();
         resource1.setKey(KEY_1);

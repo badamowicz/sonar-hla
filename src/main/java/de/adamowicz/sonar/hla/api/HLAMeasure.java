@@ -26,6 +26,11 @@
  */
 package de.adamowicz.sonar.hla.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.sonar.wsclient.services.ResourceQuery;
+
 /**
  * Represents the measures of a project inside SonarQube and provides additional meta information for every measure.
  * <p>
@@ -37,8 +42,16 @@ package de.adamowicz.sonar.hla.api;
  */
 public enum HLAMeasure {
 
-    LOCS("ncloc", "Lines of Code"), COVERAGE("coverage", "Coverage [%]"), CMPLX("complexity", "Complexity"), DUPLINES(
-            "duplicated_lines", "Duplicate Lines");
+    LOCS("ncloc", "Lines of Code"),
+    COVERAGE("coverage", "Coverage [%]"),
+    CMPLX("complexity", "Complexity"),
+    DUPLINES("duplicated_lines", "Duplicate Lines"),
+    ISSUES_ALL("violations", "Issues"),
+    ISSUES_BLOCKER("blocker_violations", "Blocker"),
+    ISSUES_CRITICAL("critical_violations", "Critical"),
+    ISSUES_MAJOR("major_violations", "Major"),
+    ISSUES_MINOR("minor_violations", "Minor"),
+    ISSUES_INFO("info_violations", "Info");
 
     private String sonarName  = null;
     private String headerName = null;
@@ -63,5 +76,33 @@ public enum HLAMeasure {
     public String getHeaderName() {
 
         return headerName;
+    }
+
+    /**
+     * Retrieve all the Sonar names inside this type as an array. This is a convenience method which may for example be used
+     * inside {@link ResourceQuery#createForMetrics(String, String...)}.
+     * 
+     * @return The array containing all Sonar names for measures defined in this type.
+     */
+    public static String[] getSonarNames() {
+
+        return getSonarNamesAsList().toArray(new String[getSonarNamesAsList().size()]);
+    }
+
+    /**
+     * Retrieve all the Sonar names for measures available in this enum type.
+     * 
+     * @return A list of all Sonar names.
+     */
+    public static List<String> getSonarNamesAsList() {
+
+        List<String> sonarNames = null;
+
+        sonarNames = new ArrayList<String>();
+
+        for (HLAMeasure currMeasure : HLAMeasure.values())
+            sonarNames.add(currMeasure.getSonarName());
+
+        return sonarNames;
     }
 }

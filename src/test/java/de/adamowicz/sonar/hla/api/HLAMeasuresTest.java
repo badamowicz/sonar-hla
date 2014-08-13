@@ -24,9 +24,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- package de.adamowicz.sonar.hla.api;
+package de.adamowicz.sonar.hla.api;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -47,5 +50,25 @@ public class HLAMeasuresTest {
     public void getSonarName() {
 
         assertEquals(HLAMeasure.COVERAGE.getSonarName(), "coverage", "Sonar name not retrieved as expected!");
+    }
+
+    @Test
+    public void getSonarNamesAsList() {
+
+        List<String> sonarNames = null;
+
+        sonarNames = HLAMeasure.getSonarNamesAsList();
+        assertNotNull(sonarNames, "No Sonar names retrieved!");
+        assertEquals(sonarNames.size(), HLAMeasure.values().length, "Different amount of Sonar names in list detected!");
+    }
+
+    @Test
+    public void getSonarNames() {
+
+        String[] sonarNames = null;
+
+        sonarNames = HLAMeasure.getSonarNames();
+        assertNotNull(sonarNames, "No Sonar names retrieved!");
+        assertEquals(sonarNames.length, HLAMeasure.values().length, "Different amount of Sonar names in array detected!");
     }
 }
