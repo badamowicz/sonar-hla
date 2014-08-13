@@ -39,7 +39,7 @@ import java.util.List;
 public interface ISonarConverter {
 
     /**
-     * Convert the given projects into a string of CSV data.
+     * Convert the given projects into a string of CSV data. The fields will not be surrounded with any quotation marks.
      * 
      * @param projects A list of projects.
      * @param hlaMeasure The metrics to use.
@@ -47,6 +47,17 @@ public interface ISonarConverter {
      * @return The string containing the CSV data.
      */
     public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
+
+    /**
+     * Convert the given projects into a string of CSV data.
+     * 
+     * @param projects A list of projects.
+     * @param hlaMeasure The metrics to use.
+     * @param When set to true, no non-numeric characters will be contained.
+     * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
+     * @return The string containing the CSV data.
+     */
+    public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues, boolean surroundFields);
 
     /**
      * Convert the given projects into an {@link InputStream} of CSV data.
@@ -57,4 +68,17 @@ public interface ISonarConverter {
      * @return The {@link InputStream} containing the CSV data.
      */
     public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
+
+    /**
+     * Convert the given projects into an {@link InputStream} of CSV data. The fields will not be surrounded with any quotation
+     * marks.
+     * 
+     * @param projects A list of projects.
+     * @param hlaMeasure The metrics to use.
+     * @param When set to true, no non-numeric characters will be contained.
+     * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
+     * @return The {@link InputStream} containing the CSV data.
+     */
+    public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues,
+            boolean surroundFields);
 }

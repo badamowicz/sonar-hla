@@ -29,6 +29,7 @@ package de.adamowicz.sonar.hla.impl;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.InputStream;
@@ -54,22 +55,25 @@ import de.adamowicz.sonar.hla.api.IProject;
  */
 public class DefaultSonarConverterTest {
 
-    static final Logger           LOG           = Logger.getLogger(DefaultSonarConverterTest.class);
+    static final Logger           LOG               = Logger.getLogger(DefaultSonarConverterTest.class);
 
-    private Measure               sonarMeasure1 = null;
-    private Measure               sonarMeasure2 = null;
-    private Measure               sonarMeasure3 = null;
-    private List<Measure>         measureList   = null;
-    private Resource              resource1     = null;
-    private Resource              resource2     = null;
-    private Project               project1      = null;
-    private Project               project2      = null;
-    private List<IProject>        projectList   = null;
-    private DefaultSonarConverter converter     = null;
-    private static final String   KEY_1         = "some.project:key1";
-    private static final String   KEY_2         = "some.project:key2";
-    private static final String   SEPARATOR     = ",";
-    private String                csvData       = null;
+    private Measure               sonarMeasure1     = null;
+    private Measure               sonarMeasure2     = null;
+    private Measure               sonarMeasure3     = null;
+    private List<Measure>         measureList       = null;
+    private Resource              resource1         = null;
+    private Resource              resource2         = null;
+    private Project               project1          = null;
+    private Project               project2          = null;
+    private List<IProject>        projectList       = null;
+    private DefaultSonarConverter converter         = null;
+    private String                csvData           = null;
+    private String                csvDataSurrounded = null;
+
+    private static final String   KEY_1             = "some.project:key1";
+    private static final String   KEY_2             = "some.project:key2";
+    private static final String   SEPARATOR         = ",";
+    private static final String   QUOT              = "\"";
 
     @BeforeClass
     public void beforeClass() {
@@ -124,6 +128,52 @@ public class DefaultSonarConverterTest {
 
             assertFalse(currLine.startsWith(SEPARATOR), "Separator character must not be at the start of a line!");
             assertFalse(currLine.endsWith(SEPARATOR), "Separator character must not be at the end of a line!");
+        }
+    }
+
+    /**
+     * Check if there is CSV data returned at all and perform some plausibility checks.
+     */
+    @Test
+    public void getCSVDataSurrounded() {
+
+        csvDataSurrounded = converter.getCSVData(projectList, Arrays.asList(HLAMeasure.values()), true, true);
+        assertNotNull(csvDataSurrounded, "No CSV data created!");
+
+        LOG.debug("Generated surrounded CSV data is:\n" + csvDataSurrounded);
+
+        for (String currLine : csvDataSurrounded.split("\\n")) {
+
+            assertFalse(currLine.startsWith(SEPARATOR), "Separator character must not be at the start of a line!");
+            assertFalse(currLine.endsWith(SEPARATOR), "Separator character must not be at the end of a line!");
+
+            assertTrue(currLine.startsWith(QUOT), "No quote found at beginning of line!");
+            assertTrue(currLine.endsWith(QUOT), "No quote found at end of line!");
+        }
+    }
+
+    @Test(dependsOnMethods = { "getCSVDataSurrounded" })
+    public void getCSVDataAsStreamSurrounded() {
+
+        InputStream is = null;
+        StringWriter sw = null;
+
+        try {
+
+            is = converter.getCSVDataAsStream(projectList, Arrays.asList(HLAMeasure.values()), true, true);
+            assertNotNull(is, "No input stream generated!");
+
+            sw = new StringWriter();
+            IOUtils.copy(is, sw);
+            assertEquals(sw.toString(), csvDataSurrounded, "Stream does not contain same content as generated data!");
+
+        } catch (Exception e) {
+
+            fail("Failed creating input stream from CSV data!", e);
+
+        } finally {
+
+            IOUtils.closeQuietly(is);
         }
     }
 

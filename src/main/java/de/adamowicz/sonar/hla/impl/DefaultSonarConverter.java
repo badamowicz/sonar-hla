@@ -30,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
@@ -44,10 +45,11 @@ import de.adamowicz.sonar.hla.api.ISonarConverter;
  */
 public class DefaultSonarConverter implements ISonarConverter {
 
-    static final Logger         LOG   = Logger.getLogger(DefaultSonarConverter.class);
+    static final Logger         LOG       = Logger.getLogger(DefaultSonarConverter.class);
 
-    private static final String BREAK = "\n";
-    private static final String SEP   = ",";
+    private static final String BREAK     = "\n";
+    private static final String SEP       = ",";
+    private static final String QUOTATION = "\"";
 
     /**
      * Don't use constructor. Obtain instances of this type using {@link SonarHLAFactory} methods.
@@ -105,5 +107,56 @@ public class DefaultSonarConverter implements ISonarConverter {
     public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues) {
 
         return new ByteArrayInputStream(getCSVData(projects, hlaMeasure, cleanValues).getBytes());
+    }
+
+    @Override
+    public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues, boolean surroundFields) {
+
+        String csvData = null;
+
+        csvData = getCSVData(projects, hlaMeasure, cleanValues);
+
+        if (surroundFields)
+            csvData = surroundFields(csvData);
+
+        return csvData;
+    }
+
+    /**
+     * Surround the given CSV data with quotations for every field.
+     * 
+     * @param csvData The original data without quotations.
+     * @return A new string object with all fields being quoted.
+     */
+    private String surroundFields(String csvData) {
+
+        StringBuffer surroundedCSV = null;
+        StringTokenizer currTokenizer = null;
+
+        surroundedCSV = new StringBuffer();
+
+        for (String currLine : csvData.split(BREAK)) {
+
+            currTokenizer = new StringTokenizer(currLine, SEP);
+
+            while (currTokenizer.hasMoreTokens()) {
+
+                surroundedCSV.append(QUOTATION).append(currTokenizer.nextToken()).append(QUOTATION);
+
+                if (currTokenizer.hasMoreTokens())
+                    surroundedCSV.append(SEP);
+            }
+
+            surroundedCSV.append(BREAK);
+        }
+
+        return surroundedCSV.toString();
+    }
+
+    @Override
+    public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues,
+            boolean surroundFields) {
+
+        return new ByteArrayInputStream(getCSVData(projects, hlaMeasure, cleanValues, surroundFields).getBytes());
     }
 }
