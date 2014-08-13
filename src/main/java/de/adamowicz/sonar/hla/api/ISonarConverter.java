@@ -41,9 +41,9 @@ public interface ISonarConverter {
      * Convert the given projects into a string of CSV data.
      * 
      * @param projects A list of projects.
-     * @param measures The metrics to use.
+     * @param hlaMeasure The metrics to use.
      * @param When set to true, no non-numeric characters will be contained.
      * @return The string containing the CSV data.
      */
-    public String getCSVData(List<IProject> projects, List<Measures> measures, boolean cleanValues);
+    public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
 }

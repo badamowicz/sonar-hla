@@ -31,7 +31,7 @@ import java.util.List;
 
 import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarConverter;
-import de.adamowicz.sonar.hla.api.Measures;
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
  * Default implementation for {@link ISonarConverter}.
@@ -44,15 +44,15 @@ public class DefaultSonarConverter implements ISonarConverter {
     private static final String SEP   = ",";
 
     @Override
-    public String getCSVData(List<IProject> projects, List<Measures> measures, boolean cleaned) {
+    public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleaned) {
 
         StringBuffer buff = null;
-        Measures currMeasure = null;
-        Iterator<Measures> iterMeasure = null;
+        HLAMeasure currMeasure = null;
+        Iterator<HLAMeasure> iterMeasure = null;
 
         buff = new StringBuffer("Project");
         buff.append(SEP);
-        iterMeasure = measures.iterator();
+        iterMeasure = hlaMeasure.iterator();
 
         while (iterMeasure.hasNext()) {
 
@@ -70,7 +70,7 @@ public class DefaultSonarConverter implements ISonarConverter {
             buff.append(currProj.getId());
             buff.append(SEP);
 
-            iterMeasure = measures.iterator();
+            iterMeasure = hlaMeasure.iterator();
 
             while (iterMeasure.hasNext()) {
 

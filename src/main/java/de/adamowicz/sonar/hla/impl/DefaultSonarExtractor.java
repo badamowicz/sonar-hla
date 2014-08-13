@@ -38,7 +38,7 @@ import org.sonar.wsclient.services.ResourceQuery;
 
 import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarExtractor;
-import de.adamowicz.sonar.hla.api.Measures;
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
  * Concrete implementation of the {@link ISonarExtractor}. Accesses SonarQube's web services.
@@ -119,8 +119,8 @@ public class DefaultSonarExtractor implements ISonarExtractor {
         Resource projResource = null;
         ResourceQuery query = null;
 
-        query = ResourceQuery.createForMetrics(projectKey, Measures.LOCS.getSonarName(), Measures.COVERAGE.getSonarName(),
-                Measures.DUPLINES.getSonarName(), Measures.CMPLX.getSonarName());
+        query = ResourceQuery.createForMetrics(projectKey, HLAMeasure.LOCS.getSonarName(), HLAMeasure.COVERAGE.getSonarName(),
+                HLAMeasure.DUPLINES.getSonarName(), HLAMeasure.CMPLX.getSonarName());
         projResource = getSonar().find(query);
         project = new Project(projectKey, projResource);
 

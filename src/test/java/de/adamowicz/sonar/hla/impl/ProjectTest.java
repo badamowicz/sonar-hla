@@ -39,7 +39,7 @@ import org.sonar.wsclient.services.Resource;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.adamowicz.sonar.hla.api.Measures;
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
  * Test cases for {@link Project} type.
@@ -61,11 +61,11 @@ public class ProjectTest {
     public void beforeClass() {
 
         measure1 = new Measure();
-        measure1.setMetricKey(Measures.COVERAGE.getSonarName());
+        measure1.setMetricKey(HLAMeasure.COVERAGE.getSonarName());
         measure1.setFormattedValue(VALUE_COVERAGE);
 
         measure2 = new Measure();
-        measure2.setMetricKey(Measures.LOCS.getSonarName());
+        measure2.setMetricKey(HLAMeasure.LOCS.getSonarName());
         measure2.setFormattedValue(VALUE_LOCS);
 
         measureList = new ArrayList<Measure>();
@@ -87,14 +87,14 @@ public class ProjectTest {
     @Test
     public void getMeasureValue() {
 
-        assertEquals(project.getMeasureValue(Measures.COVERAGE, false), VALUE_COVERAGE, "Value for coverage not as expected!");
-        assertEquals(project.getMeasureValue(Measures.LOCS, false), VALUE_LOCS, "Value for LOC not as expected!");
+        assertEquals(project.getMeasureValue(HLAMeasure.COVERAGE, false), VALUE_COVERAGE, "Value for coverage not as expected!");
+        assertEquals(project.getMeasureValue(HLAMeasure.LOCS, false), VALUE_LOCS, "Value for LOC not as expected!");
     }
 
     @Test
     public void getMeasures() {
 
-        assertNotNull(project.getMeasures(), "Measures not initialized!");
+        assertNotNull(project.getMeasures(), "HLAMeasure not initialized!");
         assertEquals(project.getMeasures().size(), measureList.size(), "Amount of measures differs!");
     }
 
@@ -113,7 +113,7 @@ public class ProjectTest {
     @Test
     public void getMeasureValueClean() {
 
-        assertEquals(project.getMeasureValue(Measures.COVERAGE, true), VALUE_COVERAGE.substring(0, VALUE_COVERAGE.length() - 1),
+        assertEquals(project.getMeasureValue(HLAMeasure.COVERAGE, true), VALUE_COVERAGE.substring(0, VALUE_COVERAGE.length() - 1),
                 "Cleaned value not returned as expected!");
     }
 
@@ -125,7 +125,7 @@ public class ProjectTest {
 
         String notAvailable = null;
 
-        notAvailable = project.getMeasureValue(Measures.CMPLX, false);
+        notAvailable = project.getMeasureValue(HLAMeasure.CMPLX, false);
         assertTrue(notAvailable != null && !notAvailable.isEmpty(), "No default string returned for non existing value!");
     }
 }

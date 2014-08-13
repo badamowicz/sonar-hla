@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
 
 import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarConverter;
-import de.adamowicz.sonar.hla.api.Measures;
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
  * Integration tests for {@link DefaultSonarExtractor}. This test needs a running SonarQube for working properly.
@@ -94,7 +94,7 @@ public class DefaultSonarExtractorIT {
         projects = extractorHostOnly.getAllProjects();
         assertNotNull(projects, "Projects not initialized!");
 
-        csvData = converter.getCSVData(projects, Arrays.asList(Measures.values()), true);
+        csvData = converter.getCSVData(projects, Arrays.asList(HLAMeasure.values()), true);
         assertNotNull(csvData, "CSV data not created!");
     }
 

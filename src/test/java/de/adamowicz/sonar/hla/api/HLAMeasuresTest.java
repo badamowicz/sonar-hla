@@ -31,21 +31,21 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
- * Test cases for {@link Measures}.
+ * Test cases for {@link HLAMeasure}.
  * 
  * Created Aug 11, 2014 1:48:02 PM by bernd
  */
-public class MeasuresTest {
+public class HLAMeasuresTest {
 
     @Test
     public void getHeaderName() {
 
-        assertEquals(Measures.COVERAGE.getHeaderName(), "Coverage [%]", "Header not retrieved as expected!");
+        assertEquals(HLAMeasure.COVERAGE.getHeaderName(), "Coverage [%]", "Header not retrieved as expected!");
     }
 
     @Test
     public void getSonarName() {
 
-        assertEquals(Measures.COVERAGE.getSonarName(), "coverage", "Sonar name not retrieved as expected!");
+        assertEquals(HLAMeasure.COVERAGE.getSonarName(), "coverage", "Sonar name not retrieved as expected!");
     }
 }

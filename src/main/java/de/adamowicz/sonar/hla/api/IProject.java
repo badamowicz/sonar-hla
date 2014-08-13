@@ -48,18 +48,18 @@ public interface IProject {
     /**
      * Retrieve the list of internal measures which are available for this project.
      * 
-     * @return The list of available {@link Measures} or an empty list if none are available.
+     * @return The list of available {@link HLAMeasure} or an empty list if none are available.
      */
-    public List<Measures> getMeasures();
+    public List<HLAMeasure> getMeasures();
 
     /**
      * Method will try to retrieve the value for the given measure. If no value is available, a default string will be returned
      * indicating that there is no such measure.
      * 
-     * @param measure The {@link Measures} to be returned.
+     * @param measure The {@link HLAMeasure} to be returned.
      * @param cleaned If true, all non-numeric characters like e.g. '%' will be removed from the returned string in order to
      *        convert the value into an appropriate Java type.
      * @return The value or a default string.
      */
-    public String getMeasureValue(Measures measure, boolean cleaned);
+    public String getMeasureValue(HLAMeasure measure, boolean cleaned);
 }

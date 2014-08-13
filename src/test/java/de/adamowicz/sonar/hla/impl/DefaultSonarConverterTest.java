@@ -40,7 +40,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.adamowicz.sonar.hla.api.IProject;
-import de.adamowicz.sonar.hla.api.Measures;
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 
 /**
  * Test cases for {@link DefaultSonarExtractor}.
@@ -105,7 +105,7 @@ public class DefaultSonarConverterTest {
 
         String csvData = null;
 
-        csvData = converter.getCSVData(projectList, Arrays.asList(Measures.values()), false);
+        csvData = converter.getCSVData(projectList, Arrays.asList(HLAMeasure.values()), false);
         assertNotNull(csvData, "No CSV data created!");
 
         LOG.debug("Generated CSV data is:\n" + csvData);

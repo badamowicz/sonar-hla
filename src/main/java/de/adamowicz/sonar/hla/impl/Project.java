@@ -36,7 +36,7 @@ import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
 
 import de.adamowicz.sonar.hla.api.IProject;
-import de.adamowicz.sonar.hla.api.Measures;
+import de.adamowicz.sonar.hla.api.HLAMeasure;
 import de.adamowicz.sonar.hla.helper.Converter;
 
 /**
@@ -51,8 +51,8 @@ public class Project implements IProject {
 
     private static final String   VALUE_NOT_AVAILABLE = "n/a";
     private String                id                  = null;
-    private List<Measures>        measures            = null;
-    private Map<Measures, String> values              = null;
+    private List<HLAMeasure>        hLAMeasure            = null;
+    private Map<HLAMeasure, String> values              = null;
     private Resource              resource            = null;
 
     private Project() {
@@ -81,10 +81,10 @@ public class Project implements IProject {
         Measure currSonarMeasure = null;
         String currValue = null;
 
-        setValues(new HashMap<Measures, String>());
-        setMeasures(new ArrayList<Measures>());
+        setValues(new HashMap<HLAMeasure, String>());
+        setMeasures(new ArrayList<HLAMeasure>());
 
-        for (Measures currMeasure : Measures.values()) {
+        for (HLAMeasure currMeasure : HLAMeasure.values()) {
 
             LOG.debug("Analyzing measure " + currMeasure.getSonarName());
             currSonarMeasure = getResource().getMeasure(currMeasure.getSonarName());
@@ -108,13 +108,13 @@ public class Project implements IProject {
     }
 
     @Override
-    public List<Measures> getMeasures() {
+    public List<HLAMeasure> getMeasures() {
 
-        return measures != null ? measures : new ArrayList<Measures>();
+        return hLAMeasure != null ? hLAMeasure : new ArrayList<HLAMeasure>();
     }
 
     @Override
-    public String getMeasureValue(Measures measure, boolean cleaned) {
+    public String getMeasureValue(HLAMeasure measure, boolean cleaned) {
 
         String value = null;
 
@@ -133,18 +133,18 @@ public class Project implements IProject {
         return resource;
     }
 
-    Map<Measures, String> getValues() {
+    Map<HLAMeasure, String> getValues() {
 
         return values;
     }
 
-    private void setValues(Map<Measures, String> values) {
+    private void setValues(Map<HLAMeasure, String> values) {
 
         this.values = values;
     }
 
-    private void setMeasures(List<Measures> measures) {
+    private void setMeasures(List<HLAMeasure> hlaMeasure) {
 
-        this.measures = measures;
+        this.hLAMeasure = hlaMeasure;
     }
 }
