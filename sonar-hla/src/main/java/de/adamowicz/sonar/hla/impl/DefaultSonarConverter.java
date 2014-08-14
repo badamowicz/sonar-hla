@@ -48,7 +48,6 @@ public class DefaultSonarConverter implements ISonarConverter {
     private static final Logger LOG       = Logger.getLogger(DefaultSonarConverter.class);
 
     private static final String BREAK     = "\n";
-    private static final String SEP       = ",";
     private static final String QUOTATION = "\"";
 
     /**

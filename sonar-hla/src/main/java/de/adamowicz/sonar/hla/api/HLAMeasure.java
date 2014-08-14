@@ -28,6 +28,7 @@ package de.adamowicz.sonar.hla.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.sonar.wsclient.services.ResourceQuery;
 
@@ -104,5 +105,33 @@ public enum HLAMeasure {
             sonarNames.add(currMeasure.getSonarName());
 
         return sonarNames;
+    }
+
+    /**
+     * Convenience method for converting a comma separated string of Sonar metric names into the appropriate {@link HLAMeasure}
+     * objects.
+     * 
+     * @param sonarNames A list of metric names. Example: <i>ncloc,coverage,duplicated_lines</i>.
+     * @return The list of {@link HLAMeasure} objects or an empty list if no name matched any measure.
+     */
+    public static List<HLAMeasure> convert(String sonarMetricNames) {
+
+        List<HLAMeasure> measures = null;
+        StringTokenizer tokenizer = null;
+        String currToken = null;
+
+        measures = new ArrayList<HLAMeasure>();
+        tokenizer = new StringTokenizer(sonarMetricNames, ",");
+
+        while (tokenizer.hasMoreTokens()) {
+
+            currToken = tokenizer.nextToken();
+
+            for (HLAMeasure currMeasure : HLAMeasure.values())
+                if (currMeasure.getSonarName().equals(currToken))
+                    measures.add(currMeasure);
+        }
+
+        return measures;
     }
 }

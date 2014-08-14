@@ -28,6 +28,7 @@ package de.adamowicz.sonar.hla.api;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
@@ -39,6 +40,29 @@ import org.testng.annotations.Test;
  * Created Aug 11, 2014 1:48:02 PM by bernd
  */
 public class HLAMeasuresTest {
+
+    @Test
+    public void convert() {
+
+        List<HLAMeasure> measures = null;
+
+        measures = HLAMeasure.convert("ncloc,coverage,duplicated_lines");
+        assertNotNull(measures, "No list returned though names are given!");
+        assertEquals(measures.size(), 3, "Wrong amount of converted measure objects!");
+        assertTrue(measures.contains(HLAMeasure.LOCS), "No object for 'ncloc' found!");
+        assertTrue(measures.contains(HLAMeasure.COVERAGE), "No object for 'coverage' found!");
+        assertTrue(measures.contains(HLAMeasure.DUPLINES), "No object for 'duplicated_lines' found!");
+    }
+
+    @Test
+    public void convertNoneFound() {
+
+        List<HLAMeasure> measures = null;
+
+        measures = HLAMeasure.convert("none,existing,sonar,names");
+        assertNotNull(measures, "An empty list must be returned!");
+        assertEquals(measures.size(), 0, "Size must be 0 for non existing names!");
+    }
 
     @Test
     public void getHeaderName() {
