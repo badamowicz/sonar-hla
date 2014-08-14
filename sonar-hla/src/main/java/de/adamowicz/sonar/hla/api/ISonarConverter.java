@@ -39,11 +39,6 @@ import java.util.List;
 public interface ISonarConverter {
 
     /**
-     * The separator character which will be used for creating CSV data.
-     */
-    public static final String SEP = ",";
-
-    /**
      * Convert the given projects into a string of CSV data. The fields will not be surrounded with any quotation marks.
      * 
      * @param projects A list of projects.

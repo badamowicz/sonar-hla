@@ -86,7 +86,7 @@ public class DefaultSonarConverterTest {
 
         sonarMeasure2 = new Measure();
         sonarMeasure2.setMetricKey("ncloc");
-        sonarMeasure2.setFormattedValue("16754");
+        sonarMeasure2.setFormattedValue("16,754");
 
         sonarMeasure3 = new Measure();
         sonarMeasure3.setMetricKey("violations");

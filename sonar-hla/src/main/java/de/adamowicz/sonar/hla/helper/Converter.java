@@ -51,7 +51,7 @@ public class Converter {
 
                                                                      {
                                                                          put("%", EMPTY);
-                                                                         put(",", ".");
+                                                                         put(",", EMPTY);
                                                                      }
                                                                  };
 

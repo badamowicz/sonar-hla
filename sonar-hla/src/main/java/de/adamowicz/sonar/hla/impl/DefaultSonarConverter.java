@@ -26,6 +26,8 @@
  */
 package de.adamowicz.sonar.hla.impl;
 
+import static de.adamowicz.sonar.hla.api.HLAConstants.SEP;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Iterator;

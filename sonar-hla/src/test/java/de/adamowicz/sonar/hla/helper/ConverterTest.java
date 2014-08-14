@@ -43,7 +43,7 @@ public class ConverterTest {
     @DataProvider(name = "decimalProvider")
     public static Object[][] decimalProvider() {
 
-        return new Object[][] { { "78.9%", "78.9" }, { "100%", "100" }, { "78,9%", "78.9" }, { "-78,9%", "-78.9" } };
+        return new Object[][] { { "78.9%", "78.9" }, { "100%", "100" }, { "78,978", "78978" }, { "-78,990", "-78990" } };
     }
 
     /**
