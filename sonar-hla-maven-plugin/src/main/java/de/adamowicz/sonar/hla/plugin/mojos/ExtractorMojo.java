@@ -71,16 +71,16 @@ public class ExtractorMojo extends AbstractMojo {
     /**
      * When set to true, no non-numeric characters will be contained in the generated data.
      * 
-     * @parameter expression=${cleanValues} default-value=false
+     * @parameter expression="${cleanValues}" default-value=false
      */
-    private boolean             cleanValues       = false;
+    private Boolean             cleanValues       = false;
 
     /**
      * If true, every single field of data will be surrounded with quotation marks.
      * 
-     * @parameter expression=${surroundFields} default-value=false
+     * @parameter expression="${surroundFields}" default-value=false
      */
-    private boolean             surroundFields    = false;
+    private Boolean             surroundFields    = false;
 
     /**
      * A comma separated list of names of measures which will be used to retrieve the data. To see which measures are available
@@ -232,22 +232,22 @@ public class ExtractorMojo extends AbstractMojo {
         this.projectKeyPattern = projectKeyPattern;
     }
 
-    public boolean isCleanValues() {
+    public Boolean isCleanValues() {
 
         return cleanValues;
     }
 
-    public void setCleanValues(boolean cleanValues) {
+    public void setCleanValues(Boolean cleanValues) {
 
         this.cleanValues = cleanValues;
     }
 
-    public boolean isSurroundFields() {
+    public Boolean isSurroundFields() {
 
         return surroundFields;
     }
 
-    public void setSurroundFields(boolean surroundFields) {
+    public void setSurroundFields(Boolean surroundFields) {
 
         this.surroundFields = surroundFields;
     }

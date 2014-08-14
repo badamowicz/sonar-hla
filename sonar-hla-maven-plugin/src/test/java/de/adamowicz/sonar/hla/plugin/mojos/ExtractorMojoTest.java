@@ -23,8 +23,8 @@ public class ExtractorMojoTest {
     private static final String  PROJECT_KEY = "some:key";
     private static final String  PATTERN     = "some:.*";
     private static final String  MEASURES    = "ncloc,coverage,duplicated_lines";
-    private static final boolean CLEAN_VALUE = true;
-    private static final boolean SURROUND    = true;
+    private static final Boolean CLEAN_VALUE = true;
+    private static final Boolean SURROUND    = true;
 
     private ExtractorMojo        mojo        = null;
     private ExtractorMojo        mojoEmpty   = null;
