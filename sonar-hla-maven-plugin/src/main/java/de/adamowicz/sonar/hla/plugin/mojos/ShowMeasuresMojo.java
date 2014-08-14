@@ -6,6 +6,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 import de.adamowicz.sonar.hla.api.HLAMeasure;
+import de.adamowicz.sonar.hla.plugin.helper.LogHelper;
 
 /**
  * This Mojo actually performs no actions at all. It simply displays all available measures inside Sonar-HLA. Those measures can
@@ -30,6 +31,8 @@ public class ShowMeasuresMojo extends AbstractMojo {
 
             LOG.info(currMeasure.getSonarName());
         }
+
+        LogHelper.moo(LOG);
     }
 
 }

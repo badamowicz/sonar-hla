@@ -14,6 +14,7 @@ import de.adamowicz.sonar.hla.api.IProject;
 import de.adamowicz.sonar.hla.api.ISonarConverter;
 import de.adamowicz.sonar.hla.api.ISonarExtractor;
 import de.adamowicz.sonar.hla.impl.SonarHLAFactory;
+import de.adamowicz.sonar.hla.plugin.helper.LogHelper;
 
 /**
  * Mojo is capable of extracting resource data from a SonarQube server. It will perform all necesary steps from extracting the
@@ -145,6 +146,7 @@ public class ExtractorMojo extends AbstractMojo {
             LOG.info("");
             LOG.info("**** End of CSV data. Have a nice day!");
             LOG.info("");
+            LogHelper.moo(LOG);
 
         } catch (Exception e) {
 
