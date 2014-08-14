@@ -109,10 +109,10 @@ public class ExtractorMojo extends AbstractMojo {
         IProject project = null;
         String csvData = null;
 
-        validate();
-        prepare();
-
         try {
+
+            validate();
+            prepare();
 
             if (getUserName() != null && !getUserName().isEmpty())
                 extractor = SonarHLAFactory.getExtractor(getHostUrl(), getUserName(), getPassword());
@@ -138,13 +138,18 @@ public class ExtractorMojo extends AbstractMojo {
 
             csvData = converter.getCSVData(projects, getMeasureObjects(), isCleanValues(), isSurroundFields());
 
+            LOG.info("");
+            LOG.info("**** Here we go with CSV from host " + getHostUrl());
+            LOG.info("");
             LOG.info(csvData);
+            LOG.info("");
+            LOG.info("**** End of CSV data. Have a nice day!");
+            LOG.info("");
 
         } catch (Exception e) {
 
             throw new MojoFailureException("Failed extracting data from Sonar host!", e);
         }
-
     }
 
     private boolean isProjectKeyPatternProvided() {

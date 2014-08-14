@@ -24,6 +24,7 @@ public class ShowMeasuresMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         LOG.info("\nAvailable measures are:");
+        LOG.info("======================");
 
         for (HLAMeasure currMeasure : HLAMeasure.values()) {
 
