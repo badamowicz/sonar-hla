@@ -55,7 +55,7 @@ public class DefaultSonarExtractorIT {
     private static final String   USER              = "admin";
     private static final String   PASSWORD          = "admin";
     private static final String   PROJECT_KEY       = "de.adamowicz.sonar.hla:sonar-hla";
-    private static final String   PROJECT_PATTERN   = ".*:sonar-hla";
+    private static final String   PROJECT_PATTERN   = ".*:sonar-hla.*";
 
     @BeforeClass
     public void beforeClass() {
