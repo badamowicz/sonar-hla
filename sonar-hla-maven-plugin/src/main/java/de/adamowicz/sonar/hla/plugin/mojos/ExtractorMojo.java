@@ -31,7 +31,7 @@ public class ExtractorMojo extends AbstractMojo {
     /**
      * The URL pointing to the SonarQube host.
      * 
-     * @parameter expression="${hostUrl}" default-value="http://localhost:9000"
+     * @parameter property="hostUrl" default-value="http://localhost:9000"
      * @required
      */
     private String              hostUrl           = null;
@@ -39,14 +39,14 @@ public class ExtractorMojo extends AbstractMojo {
     /**
      * The user name for accessing the SonarQube host.
      * 
-     * @parameter expression="${userName}"
+     * @parameter property="userName"
      */
     private String              userName          = null;
 
     /**
      * The password for a given user. Beware this password will not be encrypted in any way!
      * 
-     * @parameter expression="${password}"
+     * @parameter property="password"
      */
     private String              password          = null;
 
@@ -55,7 +55,7 @@ public class ExtractorMojo extends AbstractMojo {
      * property is mutual exclusive with the property <i>projectKeyPattern</i>! If both properties are given, an exception will be
      * thrown. If none of these properties is given, then all projects will be retrieved.
      * 
-     * @parameter expression="${projectKey}"
+     * @parameter property="projectKey"
      */
     private String              projectKey        = null;
 
@@ -64,21 +64,21 @@ public class ExtractorMojo extends AbstractMojo {
      * <i>projectKey</i>! If both properties are given, an exception will be thrown. If none of these properties is given, then
      * all projects will be retrieved.
      * 
-     * @parameter expression="${projectKeyPattern}"
+     * @parameter property="projectKeyPattern"
      */
     private String              projectKeyPattern = null;
 
     /**
      * When set to true, no non-numeric characters will be contained in the generated data.
      * 
-     * @parameter expression="${cleanValues}" default-value=false
+     * @parameter property="cleanValues" default-value=false
      */
     private Boolean             cleanValues       = false;
 
     /**
      * If true, every single field of data will be surrounded with quotation marks.
      * 
-     * @parameter expression="${surroundFields}" default-value=false
+     * @parameter property="surroundFields" default-value=false
      */
     private Boolean             surroundFields    = false;
 
@@ -90,7 +90,7 @@ public class ExtractorMojo extends AbstractMojo {
      * <p>
      * If no measures are given, all available measures will be retrieved.
      * 
-     * @parameter expression="${measures}"
+     * @parameter property="measures"
      */
     private String              measures          = null;
 
