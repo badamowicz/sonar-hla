@@ -19,20 +19,20 @@ import de.adamowicz.sonar.hla.plugin.helper.LogHelper;
  */
 public class ShowMeasuresMojo extends AbstractMojo {
 
-    static final Logger LOG = Logger.getLogger(ShowMeasuresMojo.class);
+    private static final Logger LOG_INFO = Logger.getLogger("USER_DATA");
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-        LOG.info("\nAvailable measures are:");
-        LOG.info("======================");
+        LOG_INFO.info("\nAvailable measures are:");
+        LOG_INFO.info("======================");
 
         for (HLAMeasure currMeasure : HLAMeasure.values()) {
 
-            LOG.info(currMeasure.getSonarName());
+            LOG_INFO.info(currMeasure.getSonarName());
         }
 
-        LogHelper.moo(LOG);
+        LogHelper.moo(LOG_INFO);
     }
 
 }

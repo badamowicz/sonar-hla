@@ -17,9 +17,27 @@ public class LogHelper {
     }
 
     /**
+     * Log CSV data with some additional information.
+     * 
+     * @param csvData A string expected to contain CSV data. Actually no checks are done if this is really CSV.
+     * @param log A {@link Logger} which will be used for output.
+     */
+    public static void logCSV(String csvData, final Logger log) {
+
+        log.info("");
+        log.info("**** Here we go with CSV:");
+        log.info("");
+        log.info(csvData);
+        log.info("");
+        log.info("**** End of CSV data. Have a nice day!");
+        log.info("");
+        LogHelper.moo(log);
+    }
+
+    /**
      * Make 'moo'. ;-)
      */
-    public static void moo(Logger log) {
+    public static void moo(final Logger log) {
 
         log.info(" _____________________________");
         log.info("< Sonar High Level API - Moo! >");

@@ -28,6 +28,7 @@ import de.adamowicz.sonar.hla.plugin.helper.LogHelper;
 public class ExtractorMojo extends AbstractMojo {
 
     private static final Logger LOG               = Logger.getLogger(ExtractorMojo.class);
+    private static final Logger LOG_INFO          = Logger.getLogger("USER_DATA");
 
     /**
      * The URL pointing to the SonarQube host.
@@ -101,57 +102,66 @@ public class ExtractorMojo extends AbstractMojo {
      */
     private List<HLAMeasure>    measureObjects    = null;
 
+    /**
+     * The converter used for processing.
+     */
+    private ISonarConverter     converter         = null;
+
+    /**
+     * The extractor used for processing.
+     */
+    private ISonarExtractor     extractor         = null;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-        ISonarConverter converter = null;
-        ISonarExtractor extractor = null;
-        List<IProject> projects = null;
-        IProject project = null;
         String csvData = null;
 
         try {
 
             validate();
             prepare();
-
-            if (getUserName() != null && !getUserName().isEmpty())
-                extractor = SonarHLAFactory.getExtractor(getHostUrl(), getUserName(), getPassword());
-            else
-                extractor = SonarHLAFactory.getExtractor(getHostUrl());
-
-            converter = SonarHLAFactory.getConverterInstance();
-
-            if (isProjectKeyProvided()) {
-
-                project = extractor.getProject(getProjectKey());
-                projects = new ArrayList<IProject>();
-                projects.add(project);
-
-            } else if (isProjectKeyPatternProvided()) {
-
-                projects = extractor.getProjects(getProjectKeyPattern());
-
-            } else {
-
-                projects = extractor.getAllProjects();
-            }
-
-            csvData = converter.getCSVData(projects, getMeasureObjects(), isCleanValues(), isSurroundFields());
-
-            LOG.info("");
-            LOG.info("**** Here we go with CSV from host " + getHostUrl());
-            LOG.info("");
-            LOG.info(csvData);
-            LOG.info("");
-            LOG.info("**** End of CSV data. Have a nice day!");
-            LOG.info("");
-            LogHelper.moo(LOG);
+            csvData = createCSV();
+            LogHelper.logCSV(csvData, LOG_INFO);
 
         } catch (Exception e) {
 
             throw new MojoFailureException("Failed extracting data from Sonar host!", e);
         }
+    }
+
+    /**
+     * Performs all the steps necessary for retrieving Sonar data and convert them into CSV.
+     * 
+     * @return The string containing all the CSV data according to the configuration of this plugin.
+     */
+    private String createCSV() {
+
+        List<IProject> projects = null;
+        IProject project = null;
+        String csvData = null;
+
+        if (isProjectKeyProvided()) {
+
+            project = getExtractor().getProject(getProjectKey());
+            projects = new ArrayList<IProject>();
+            projects.add(project);
+
+        } else if (isProjectKeyPatternProvided()) {
+
+            projects = getExtractor().getProjects(getProjectKeyPattern());
+
+        } else {
+
+            projects = getExtractor().getAllProjects();
+        }
+
+        LOG.debug("Retrieved projects.");
+
+        csvData = getConverter().getCSVData(projects, getMeasureObjects(), isCleanValues(), isSurroundFields());
+        LOG.debug("Retrieved CSV data.");
+
+        return csvData;
     }
 
     private boolean isProjectKeyPatternProvided() {
@@ -173,6 +183,13 @@ public class ExtractorMojo extends AbstractMojo {
             setMeasureObjects(Arrays.asList(HLAMeasure.values()));
         else
             setMeasureObjects(HLAMeasure.convert(getMeasures()));
+
+        if (getUserName() != null && !getUserName().isEmpty())
+            setExtractor(SonarHLAFactory.getExtractor(getHostUrl(), getUserName(), getPassword()));
+        else
+            setExtractor(SonarHLAFactory.getExtractor(getHostUrl()));
+
+        setConverter(SonarHLAFactory.getConverterInstance());
 
         LOG.info("Initialized " + getMeasureObjects().size() + " measures.");
     }
@@ -277,5 +294,25 @@ public class ExtractorMojo extends AbstractMojo {
     private void setMeasureObjects(List<HLAMeasure> measureObjects) {
 
         this.measureObjects = measureObjects;
+    }
+
+    ISonarConverter getConverter() {
+
+        return converter;
+    }
+
+    private void setConverter(ISonarConverter converter) {
+
+        this.converter = converter;
+    }
+
+    ISonarExtractor getExtractor() {
+
+        return extractor;
+    }
+
+    private void setExtractor(ISonarExtractor extractor) {
+
+        this.extractor = extractor;
     }
 }

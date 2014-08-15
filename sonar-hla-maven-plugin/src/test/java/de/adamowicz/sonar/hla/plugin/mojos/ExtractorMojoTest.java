@@ -1,6 +1,7 @@
 package de.adamowicz.sonar.hla.plugin.mojos;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -43,6 +44,14 @@ public class ExtractorMojoTest {
         mojo.setProjectKey(PROJECT_KEY);
 
         mojoEmpty = new ExtractorMojo();
+    }
+
+    @Test
+    public void prepare() {
+
+        mojo.prepare();
+        assertNotNull(mojo.getConverter(), "No converter initialized!");
+        assertNotNull(mojo.getExtractor(), "No extractor initialized!");
     }
 
     @Test
