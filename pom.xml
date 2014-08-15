@@ -20,8 +20,8 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:ssh://github.com:badamowicz/sonar-hla.git</connection>
-    <developerConnection>scm:git:ssh://github.com:badamowicz/sonar-hla.git</developerConnection>
+    <connection>scm:git:git@github.com:badamowicz/sonar-hla.git</connection>
+    <developerConnection>scm:git:git@github.com:badamowicz/sonar-hla.git</developerConnection>
   </scm>
 
   <developers>
