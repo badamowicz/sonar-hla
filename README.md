@@ -8,6 +8,6 @@ and provide instead an easy to use API for accessing most important data from a
 SonarQube server.
 
 This program is young! It started in August 2014. So don't expect too much right now!
-There are no tags so far and no artifacts in any public Maven repository. But just
+There are few tags so far and no artifacts in any public Maven repository. But just
 stay tuned. A first tagged version with some basic functionality will come soon.
 See milestones.
