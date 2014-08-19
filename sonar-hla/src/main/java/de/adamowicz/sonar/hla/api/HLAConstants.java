@@ -33,12 +33,13 @@ package de.adamowicz.sonar.hla.api;
  */
 public class HLAConstants {
 
-    private HLAConstants() {
-
-    }
-
     /**
      * The separator character which will be used for creating CSV data.
      */
     public static final String SEP = ";";
+
+    private HLAConstants() {
+
+    }
+
 }

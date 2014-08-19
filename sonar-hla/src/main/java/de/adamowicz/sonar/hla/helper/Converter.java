@@ -37,13 +37,6 @@ import java.util.Map;
  */
 public class Converter {
 
-    /**
-     * All static here. So don't use.
-     */
-    private Converter() {
-
-    }
-
     public static final String              EMPTY                = "";
     public static final Map<String, String> CHARS_TO_BE_REPLACED = new HashMap<String, String>() {
 
@@ -54,6 +47,13 @@ public class Converter {
                                                                          put(",", EMPTY);
                                                                      }
                                                                  };
+
+    /**
+     * All static here. So don't use.
+     */
+    private Converter() {
+
+    }
 
     /**
      * Method will remove any non-numeric characters like '%' from the given string. With a cleaned value it will be possible to

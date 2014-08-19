@@ -56,7 +56,7 @@
       <dependency>
         <groupId>org.codehaus.sonar</groupId>
         <artifactId>sonar-ws-client</artifactId>
-        <version>4.3.2</version>
+        <version>4.4</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
