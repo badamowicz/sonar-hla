@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>de.adamowicz.sonar.hla</groupId>
+    <groupId>com.github.badamowicz.sonar.hla</groupId>
     <artifactId>sonar-hla-parent</artifactId>
     <version>0.3.0-SNAPSHOT</version>
   </parent>
@@ -20,7 +20,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.adamowicz.sonar.hla</groupId>
+      <groupId>com.github.badamowicz.sonar.hla</groupId>
       <artifactId>sonar-hla</artifactId>
       <version>${project.version}</version>
     </dependency>
