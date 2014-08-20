@@ -65,7 +65,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.github.badamowicz.sonar.hla</groupId>
+        <groupId>com.github.badamowicz</groupId>
         <artifactId>sonar-hla</artifactId>
         <version>${project.version}</version>
       </dependency>
