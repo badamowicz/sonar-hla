@@ -22,7 +22,6 @@
     <dependency>
       <groupId>com.github.badamowicz.sonar.hla</groupId>
       <artifactId>sonar-hla</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
