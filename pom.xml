@@ -22,7 +22,7 @@
   <scm>
     <connection>scm:git:git@github.com:badamowicz/sonar-hla.git</connection>
     <developerConnection>scm:git:git@github.com:badamowicz/sonar-hla.git</developerConnection>
-    <tag>sonar-hla-0.3.0</tag>
+    <url>git@github.com:badamowicz/sonar-hla.git</url>
   </scm>
 
   <distributionManagement>
