@@ -4,7 +4,7 @@
 
   <groupId>com.github.badamowicz</groupId>
   <artifactId>sonar-hla-parent</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Sonar-HLA Parent POM</name>
@@ -22,7 +22,7 @@
   <scm>
     <connection>scm:git:git@github.com:badamowicz/sonar-hla.git</connection>
     <developerConnection>scm:git:git@github.com:badamowicz/sonar-hla.git</developerConnection>
-    <tag>sonar-hla-0.3.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
