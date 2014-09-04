@@ -41,7 +41,7 @@ public interface IProject {
     /**
      * Retrieve the ID of a project as it is defined within SonarQube.
      * 
-     * @return
+     * @return The ID of the project as it is named inside Sonar. Example: <i>com.github.badamowicz.sonar.hla:sonar-hla</i>
      */
     public String getId();
 

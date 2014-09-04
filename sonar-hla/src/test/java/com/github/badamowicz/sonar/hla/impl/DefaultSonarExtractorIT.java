@@ -38,9 +38,6 @@ import org.testng.annotations.Test;
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
 import com.github.badamowicz.sonar.hla.api.ISonarConverter;
-import com.github.badamowicz.sonar.hla.impl.DefaultSonarConverter;
-import com.github.badamowicz.sonar.hla.impl.DefaultSonarExtractor;
-
 
 /**
  * Integration tests for {@link DefaultSonarExtractor}. This test needs a running SonarQube for working properly. See also
@@ -109,7 +106,7 @@ public class DefaultSonarExtractorIT {
 
         foundProjects = extractorHostOnly.getProjects(PROJECT_PATTERN);
         assertNotNull(foundProjects, "No projects returned!");
-        assertEquals(foundProjects.size(), 1, "Wrong amount of projects found!");
+        assertEquals(foundProjects.size(), 2, "Wrong amount of projects found!");
     }
 
     @Test
