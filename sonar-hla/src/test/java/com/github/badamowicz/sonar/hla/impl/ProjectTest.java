@@ -44,7 +44,6 @@ import org.testng.annotations.Test;
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.impl.Project;
 
-
 /**
  * Test cases for {@link Project} type.
  * 
@@ -52,6 +51,7 @@ import com.github.badamowicz.sonar.hla.impl.Project;
  */
 public class ProjectTest {
 
+    private static final String  VERSION        = "0815";
     private Resource             resource       = null;
     private Measure              measure1       = null;
     private Measure              measure2       = null;
@@ -80,8 +80,15 @@ public class ProjectTest {
 
         resource = new Resource();
         resource.setMeasures(measureList);
+        resource.setVersion(VERSION);
 
         project = new Project(ID, resource);
+    }
+
+    @Test
+    public void getVersion() {
+
+        assertEquals(project.getVersion(), VERSION);
     }
 
     @Test

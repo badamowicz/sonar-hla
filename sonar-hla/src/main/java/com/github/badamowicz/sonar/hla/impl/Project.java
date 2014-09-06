@@ -39,7 +39,6 @@ import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
 import com.github.badamowicz.sonar.hla.helper.Converter;
 
-
 /**
  * Represents a single project within SonarQube.
  * 
@@ -55,6 +54,7 @@ public class Project implements IProject {
     private List<HLAMeasure>        hlaMeasure          = null;
     private Map<HLAMeasure, String> values              = null;
     private Resource                resource            = null;
+    private String                  version             = null;
 
     /**
      * Don't use constructor. Use {@link Project#Project(String, Resource)} instead.
@@ -87,6 +87,7 @@ public class Project implements IProject {
 
         setValues(new HashMap<HLAMeasure, String>());
         setMeasures(new ArrayList<HLAMeasure>());
+        setVersion(getResource().getVersion());
 
         for (HLAMeasure currMeasure : HLAMeasure.values()) {
 
@@ -155,6 +156,17 @@ public class Project implements IProject {
     @Override
     public String toString() {
 
-        return "Project (HLA), ID: " + getId();
+        return "Project (HLA), ID: " + getId() + ":" + getVersion();
+    }
+
+    @Override
+    public String getVersion() {
+
+        return version != null ? version : VALUE_NOT_AVAILABLE;
+    }
+
+    private void setVersion(String version) {
+
+        this.version = version;
     }
 }

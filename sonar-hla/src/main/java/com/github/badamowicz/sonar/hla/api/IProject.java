@@ -46,6 +46,13 @@ public interface IProject {
     public String getId();
 
     /**
+     * Get the version of the project as defined inside SonarQube.
+     * 
+     * @return The version of this project.
+     */
+    public String getVersion();
+
+    /**
      * Retrieve the list of internal measures which are available for this project.
      * 
      * @return The list of available {@link HLAMeasure} or an empty list if none are available.
