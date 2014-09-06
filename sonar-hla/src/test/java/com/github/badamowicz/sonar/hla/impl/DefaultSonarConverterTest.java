@@ -48,10 +48,6 @@ import org.testng.annotations.Test;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
-import com.github.badamowicz.sonar.hla.impl.DefaultSonarConverter;
-import com.github.badamowicz.sonar.hla.impl.DefaultSonarExtractor;
-import com.github.badamowicz.sonar.hla.impl.Project;
-
 
 /**
  * Test cases for {@link DefaultSonarExtractor}.
@@ -80,6 +76,7 @@ public class DefaultSonarConverterTest {
     private static final String   SEPARATOR         = ",";
     private static final String   QUOT              = "\"";
     private static final Pattern  PATTERN_ID        = Pattern.compile("DefaultSonarConverter with CSV separator.*");
+    private static final String   VERSION           = "4711";
 
     @BeforeClass
     public void beforeClass() {
@@ -104,10 +101,12 @@ public class DefaultSonarConverterTest {
         resource1 = new Resource();
         resource1.setKey(KEY_1);
         resource1.setMeasures(measureList);
+        resource1.setVersion(VERSION);
 
         resource2 = new Resource();
         resource2.setKey(KEY_2);
         resource2.setMeasures(measureList);
+        resource2.setVersion(VERSION);
 
         project1 = new Project(KEY_1, resource1);
         project2 = new Project(KEY_2, resource2);

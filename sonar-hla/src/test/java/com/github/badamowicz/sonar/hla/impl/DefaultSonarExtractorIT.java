@@ -32,6 +32,7 @@ import static org.testng.Assert.assertNotNull;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -41,11 +42,13 @@ import com.github.badamowicz.sonar.hla.api.ISonarConverter;
 
 /**
  * Integration tests for {@link DefaultSonarExtractor}. This test needs a running SonarQube for working properly. See also
- * {@link DefaultSonarConverterTest} for more UTs.
+ * {@link DefaultSonarConverterTest} for UTs.
  * 
  * Created Aug 12, 2014 10:03:27 AM by bernd
  */
 public class DefaultSonarExtractorIT {
+
+    static final Logger           LOG               = Logger.getLogger(DefaultSonarExtractorIT.class);
 
     private DefaultSonarExtractor extractor         = null;
     private DefaultSonarExtractor extractorHostOnly = null;
@@ -97,6 +100,7 @@ public class DefaultSonarExtractorIT {
 
         csvData = converter.getCSVData(projects, Arrays.asList(HLAMeasure.values()), true);
         assertNotNull(csvData, "CSV data not created!");
+        LOG.debug("\n" + csvData);
     }
 
     @Test

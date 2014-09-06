@@ -40,7 +40,6 @@ import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
 import com.github.badamowicz.sonar.hla.api.ISonarConverter;
 
-
 /**
  * Default implementation for {@link ISonarConverter}.
  * 
@@ -85,7 +84,7 @@ public class DefaultSonarConverter implements ISonarConverter {
 
         for (IProject currProj : projects) {
 
-            builder.append(currProj.getId());
+            builder.append(currProj.getId() + ":" + currProj.getVersion());
             builder.append(SEP);
 
             iterMeasure = hlaMeasure.iterator();
