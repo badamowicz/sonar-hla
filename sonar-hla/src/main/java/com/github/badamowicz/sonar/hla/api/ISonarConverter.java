@@ -26,6 +26,7 @@
  */
 package com.github.badamowicz.sonar.hla.api;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -42,8 +43,8 @@ public interface ISonarConverter {
      * Convert the given projects into a string of CSV data. The fields will not be surrounded with any quotation marks.
      * 
      * @param projects A list of projects.
-     * @param hlaMeasure The metrics to use.
-     * @param When set to true, no non-numeric characters will be contained.
+     * @param hlaMeasure The measures to use.
+     * @param cleanValues When set to true, no non-numeric characters will be contained.
      * @return The string containing the CSV data.
      */
     public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
@@ -52,33 +53,58 @@ public interface ISonarConverter {
      * Convert the given projects into a string of CSV data.
      * 
      * @param projects A list of projects.
-     * @param hlaMeasure The metrics to use.
-     * @param When set to true, no non-numeric characters will be contained.
+     * @param hlaMeasure The measures to use.
+     * @param cleanValues When set to true, no non-numeric characters will be contained.
      * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
      * @return The string containing the CSV data.
      */
     public String getCSVData(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues, boolean surroundFields);
 
     /**
-     * Convert the given projects into an {@link InputStream} of CSV data.
+     * Convert the given projects into an {@link InputStream} of CSV data. The fields will not be surrounded with any quotation
+     * marks.
      * 
      * @param projects A list of projects.
-     * @param hlaMeasure The metrics to use.
-     * @param When set to true, no non-numeric characters will be contained.
+     * @param hlaMeasure The measures to use.
+     * @param cleanValues When set to true, no non-numeric characters will be contained.
      * @return The {@link InputStream} containing the CSV data.
      */
     public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
 
     /**
-     * Convert the given projects into an {@link InputStream} of CSV data. The fields will not be surrounded with any quotation
-     * marks.
+     * Convert the given projects into an {@link InputStream} of CSV data.
      * 
      * @param projects A list of projects.
-     * @param hlaMeasure The metrics to use.
-     * @param When set to true, no non-numeric characters will be contained.
+     * @param hlaMeasure The measures to use.
+     * @param cleanValues When set to true, no non-numeric characters will be contained.
      * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
      * @return The {@link InputStream} containing the CSV data.
      */
     public InputStream getCSVDataAsStream(List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues,
+            boolean surroundFields);
+
+    /**
+     * Convert the given projects into CSV data and write them to a file object. The fields will not be surrounded with any
+     * quotation marks.
+     * 
+     * @param fileName A relative or absolute file name.
+     * @param projects A list of projects.
+     * @param hlaMeasure The measures to use.
+     * @param cleanValues When set to true, no non-numeric characters will be contained.
+     * @return The {@link InputStream} containing the CSV data.
+     */
+    public File getCSVDataAsFile(String fileName, List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues);
+
+    /**
+     * Convert the given projects into an {@link InputStream} of CSV data.
+     * 
+     * @param fileName A relative or absolute file name.
+     * @param projects A list of projects.
+     * @param hlaMeasure The measures to use.
+     * @param cleanValues When set to true, no non-numeric characters will be contained.
+     * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
+     * @return The {@link InputStream} containing the CSV data.
+     */
+    public File getCSVDataAsFile(String fileName, List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues,
             boolean surroundFields);
 }

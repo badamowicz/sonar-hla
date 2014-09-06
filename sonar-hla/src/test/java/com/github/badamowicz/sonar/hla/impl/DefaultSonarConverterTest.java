@@ -32,6 +32,8 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -39,15 +41,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
+import com.github.badamowicz.sonar.hla.exceptions.SonarProcessingException;
 
 /**
  * Test cases for {@link DefaultSonarExtractor}.
@@ -70,6 +75,7 @@ public class DefaultSonarConverterTest {
     private DefaultSonarConverter converter         = null;
     private String                csvData           = null;
     private String                csvDataSurrounded = null;
+    private File                  csvFile           = null;
 
     private static final String   KEY_1             = "some.project:key1";
     private static final String   KEY_2             = "some.project:key2";
@@ -77,6 +83,7 @@ public class DefaultSonarConverterTest {
     private static final String   QUOT              = "\"";
     private static final Pattern  PATTERN_ID        = Pattern.compile("DefaultSonarConverter with CSV separator.*");
     private static final String   VERSION           = "4711";
+    private static final String   CSV_FILE_NAME     = "unittest.csv";
 
     @BeforeClass
     public void beforeClass() {
@@ -116,6 +123,37 @@ public class DefaultSonarConverterTest {
         projectList.add(project2);
 
         converter = new DefaultSonarConverter();
+
+        prepareCSVFile();
+    }
+
+    private void prepareCSVFile() {
+
+        csvFile = new File(FileUtils.getTempDirectory(), CSV_FILE_NAME);
+        assertNotNull(csvFile, "Could not prepare CSV file for testing!");
+    }
+
+    @AfterClass
+    public void cleanUp() {
+
+        FileUtils.deleteQuietly(csvFile);
+    }
+
+    @Test
+    public void getCSVDataAsFile() throws IOException {
+
+        String csvContent = null;
+
+        csvFile = converter.getCSVDataAsFile(csvFile.getAbsolutePath(), projectList, Arrays.asList(HLAMeasure.values()), false);
+        csvContent = FileUtils.readFileToString(csvFile);
+        assertNotNull(csvContent, "No CSV data written to file!");
+        assertFalse(csvContent.isEmpty(), "Written CSV does not contain any data!");
+    }
+
+    @Test(expectedExceptions = SonarProcessingException.class)
+    public void getCSVDataAsFileFail() {
+
+        csvFile = converter.getCSVDataAsFile(null, projectList, Arrays.asList(HLAMeasure.values()), false);
     }
 
     /**

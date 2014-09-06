@@ -29,16 +29,20 @@ package com.github.badamowicz.sonar.hla.impl;
 import static com.github.badamowicz.sonar.hla.api.HLAConstants.SEP;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
 import com.github.badamowicz.sonar.hla.api.ISonarConverter;
+import com.github.badamowicz.sonar.hla.exceptions.SonarProcessingException;
 
 /**
  * Default implementation for {@link ISonarConverter}.
@@ -51,6 +55,7 @@ public class DefaultSonarConverter implements ISonarConverter {
 
     private static final String BREAK     = "\n";
     private static final String QUOTATION = "\"";
+    private static final String ENCODING  = "UTF-8";
 
     /**
      * Don't use constructor. Obtain instances of this type using {@link SonarHLAFactory} methods.
@@ -165,5 +170,34 @@ public class DefaultSonarConverter implements ISonarConverter {
     public String toString() {
 
         return "DefaultSonarConverter with CSV separator: " + SEP;
+    }
+
+    @Override
+    public File getCSVDataAsFile(String fileName, List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues) {
+
+        return getCSVDataAsFile(fileName, projects, hlaMeasure, cleanValues, false);
+    }
+
+    @Override
+    public File getCSVDataAsFile(String fileName, List<IProject> projects, List<HLAMeasure> hlaMeasure, boolean cleanValues,
+            boolean surroundFields) {
+
+        File file = null;
+        String csvData = null;
+
+        try {
+
+            csvData = getCSVData(projects, hlaMeasure, cleanValues, surroundFields);
+            file = new File(fileName);
+            LOG.debug("Will try to write CSV data to file: " + file.getAbsolutePath());
+            FileUtils.writeStringToFile(file, csvData, Charset.forName(ENCODING), false);
+            LOG.debug("Finished writing CSV data to file: " + file.getAbsolutePath());
+
+        } catch (Exception e) {
+
+            throw new SonarProcessingException("Could not write CSV data to file!", e);
+        }
+
+        return file;
     }
 }

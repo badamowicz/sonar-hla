@@ -67,7 +67,7 @@ public class Project implements IProject {
      * Initializes the necessary fields for this type.
      * 
      * @param id The unique project id.
-     * @param The resource which must describe a project from SonarQube.
+     * @param resource The resource which must describe a project from SonarQube.
      */
     public Project(String id, Resource resource) {
 
