@@ -61,29 +61,31 @@ import com.github.badamowicz.sonar.hla.exceptions.SonarProcessingException;
  */
 public class DefaultSonarConverterTest {
 
-    static final Logger           LOG               = Logger.getLogger(DefaultSonarConverterTest.class);
+    static final Logger           LOG                    = Logger.getLogger(DefaultSonarConverterTest.class);
 
-    private Measure               sonarMeasure1     = null;
-    private Measure               sonarMeasure2     = null;
-    private Measure               sonarMeasure3     = null;
-    private List<Measure>         measureList       = null;
-    private Resource              resource1         = null;
-    private Resource              resource2         = null;
-    private Project               project1          = null;
-    private Project               project2          = null;
-    private List<IProject>        projectList       = null;
-    private DefaultSonarConverter converter         = null;
-    private String                csvData           = null;
-    private String                csvDataSurrounded = null;
-    private File                  csvFile           = null;
+    private Measure               sonarMeasure1          = null;
+    private Measure               sonarMeasure2          = null;
+    private Measure               sonarMeasure3          = null;
+    private List<Measure>         measureList            = null;
+    private Resource              resource1              = null;
+    private Resource              resource2              = null;
+    private Project               project1               = null;
+    private Project               project2               = null;
+    private List<IProject>        projectList            = null;
+    private DefaultSonarConverter converter              = null;
+    private String                csvData                = null;
+    private String                csvDataSurrounded      = null;
+    private File                  csvFile                = null;
+    private File                  csvShortcutFile       = null;
 
-    private static final String   KEY_1             = "some.project:key1";
-    private static final String   KEY_2             = "some.project:key2";
-    private static final String   SEPARATOR         = ",";
-    private static final String   QUOT              = "\"";
-    private static final Pattern  PATTERN_ID        = Pattern.compile("DefaultSonarConverter with CSV separator.*");
-    private static final String   VERSION           = "4711";
-    private static final String   CSV_FILE_NAME     = "unittest.csv";
+    private static final String   KEY_1                  = "some.project:key1";
+    private static final String   KEY_2                  = "some.project:key2";
+    private static final String   SEPARATOR              = ",";
+    private static final String   QUOT                   = "\"";
+    private static final Pattern  PATTERN_ID             = Pattern.compile("DefaultSonarConverter with CSV separator.*");
+    private static final String   VERSION                = "4711";
+    private static final String   CSV_FILE_NAME          = "unittest.csv";
+    private static final String   CSV_SHORTCUT_FILE_NAME = "unittest-shortcut.csv";
 
     @BeforeClass
     public void beforeClass() {
@@ -131,12 +133,30 @@ public class DefaultSonarConverterTest {
 
         csvFile = new File(FileUtils.getTempDirectory(), CSV_FILE_NAME);
         assertNotNull(csvFile, "Could not prepare CSV file for testing!");
+
+        csvShortcutFile = new File(FileUtils.getTempDirectory(), CSV_SHORTCUT_FILE_NAME);
+        assertNotNull(csvShortcutFile, "Could not prepare CSV shortcut file for testing!");
     }
 
     @AfterClass
     public void cleanUp() {
 
         FileUtils.deleteQuietly(csvFile);
+        FileUtils.deleteQuietly(csvShortcutFile);
+    }
+
+    @Test
+    public void writeCSVDataToFile() throws IOException {
+
+        converter.writeCSVDataToFile(csvShortcutFile.getAbsolutePath(), "sillydata");
+        assertNotNull(csvShortcutFile, "No CSV data written to file!");
+        assertFalse(FileUtils.readFileToString(csvShortcutFile).isEmpty(), "Written CSV does not contain any data!");
+    }
+
+    @Test(expectedExceptions = SonarProcessingException.class)
+    public void writeCSVDataToFileFail() {
+
+        converter.writeCSVDataToFile(null, "sillydata");
     }
 
     @Test

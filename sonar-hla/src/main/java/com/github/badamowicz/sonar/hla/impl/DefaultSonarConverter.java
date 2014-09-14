@@ -200,4 +200,18 @@ public class DefaultSonarConverter implements ISonarConverter {
 
         return file;
     }
+
+    @Override
+    public void writeCSVDataToFile(String fileName, String csvData) {
+
+        try {
+
+            FileUtils.writeStringToFile(new File(fileName), csvData);
+
+        } catch (Exception e) {
+
+            throw new SonarProcessingException("Could not write given data to file! : " + fileName, e);
+        }
+
+    }
 }

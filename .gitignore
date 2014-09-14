@@ -1,6 +1,8 @@
 *.class
 test-output
 target
+*log*
+sonar.csv
 
 # Eclipse stuff
 .classpath

@@ -9,7 +9,7 @@
   <version>0.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Sonar-HLA Parent POM</name>
+  <name>Sonar-HLA</name>
   <description>High Level API for accessing Sonar resources.</description>
   <inceptionYear>2014</inceptionYear>
   <url>https://github.com/badamowicz/sonar-hla</url>

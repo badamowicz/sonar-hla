@@ -36,8 +36,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
-import com.github.badamowicz.sonar.hla.plugin.mojos.ExtractorMojo;
-
 
 /**
  * UTs for {@link ExtractorMojo}.
@@ -54,6 +52,7 @@ public class ExtractorMojoTest {
     private static final String  MEASURES    = "ncloc,coverage,duplicated_lines";
     private static final Boolean CLEAN_VALUE = true;
     private static final Boolean SURROUND    = true;
+    private static final String  CSV_FILE    = "/some/file/somewhere.csv";
 
     private ExtractorMojo        mojo        = null;
     private ExtractorMojo        mojoEmpty   = null;
@@ -70,6 +69,7 @@ public class ExtractorMojoTest {
         mojo.setUserName(USER);
         mojo.setProjectKeyPattern(PATTERN);
         mojo.setProjectKey(PROJECT_KEY);
+        mojo.setCsvFile(CSV_FILE);
 
         mojoEmpty = new ExtractorMojo();
     }
@@ -80,6 +80,12 @@ public class ExtractorMojoTest {
         mojo.prepare();
         assertNotNull(mojo.getConverter(), "No converter initialized!");
         assertNotNull(mojo.getExtractor(), "No extractor initialized!");
+    }
+
+    @Test
+    public void getCsvFile() {
+
+        assertEquals(mojo.getCsvFile(), CSV_FILE);
     }
 
     @Test

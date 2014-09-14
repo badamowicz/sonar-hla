@@ -42,7 +42,6 @@ import com.github.badamowicz.sonar.hla.api.ISonarExtractor;
 import com.github.badamowicz.sonar.hla.impl.SonarHLAFactory;
 import com.github.badamowicz.sonar.hla.plugin.helper.LogHelper;
 
-
 /**
  * Mojo is capable of extracting resource data from a SonarQube server. It will perform all necesary steps from extracting the
  * data up to providing those in an appropriate way.
@@ -80,9 +79,10 @@ public class ExtractorMojo extends AbstractMojo {
     private String              password          = null;
 
     /**
-     * For retrieving a single project, just give the project's key here. Example: <i>com.github.badamowicz.sonar.hla:sonar-hla</i>. This
-     * property is mutual exclusive with the property <i>projectKeyPattern</i>! If both properties are given, an exception will be
-     * thrown. If none of these properties is given, then all projects will be retrieved.
+     * For retrieving a single project, just give the project's key here. Example:
+     * <i>com.github.badamowicz.sonar.hla:sonar-hla</i>. This property is mutual exclusive with the property
+     * <i>projectKeyPattern</i>! If both properties are given, an exception will be thrown. If none of these properties is given,
+     * then all projects will be retrieved.
      * 
      * @parameter property="projectKey"
      */
@@ -124,6 +124,14 @@ public class ExtractorMojo extends AbstractMojo {
     private String              measures          = null;
 
     /**
+     * If this parameter is given, the CSV data will also be written to the given destination file. May be a relative or an
+     * absolute file path.
+     * 
+     * @parameter property="csvFile"
+     */
+    private String              csvFile           = null;
+
+    /**
      * The internal list of {@link HLAMeasure} used for initializing Sonar-HLA. Will be filled accordingly to what is given in
      * parameter {@link #measures}.
      */
@@ -150,6 +158,9 @@ public class ExtractorMojo extends AbstractMojo {
             prepare();
             csvData = createCSV();
             LogHelper.logCSV(csvData, LOG_INFO);
+
+            if (writeToFileRequired())
+                converter.writeCSVDataToFile(getCsvFile(), csvData);
 
         } catch (Exception e) {
 
@@ -183,12 +194,15 @@ public class ExtractorMojo extends AbstractMojo {
             projects = getExtractor().getAllProjects();
         }
 
-        LOG.debug("Retrieved projects.");
-
         csvData = getConverter().getCSVData(projects, getMeasureObjects(), isCleanValues(), isSurroundFields());
-        LOG.debug("Retrieved CSV data.");
+        LOG.debug("Retrieved projects and generated CSV data.");
 
         return csvData;
+    }
+
+    private boolean writeToFileRequired() {
+
+        return getCsvFile() != null && !getCsvFile().isEmpty();
     }
 
     private boolean isProjectKeyPatternProvided() {
@@ -341,5 +355,15 @@ public class ExtractorMojo extends AbstractMojo {
     private void setExtractor(ISonarExtractor extractor) {
 
         this.extractor = extractor;
+    }
+
+    public String getCsvFile() {
+
+        return csvFile;
+    }
+
+    public void setCsvFile(String csvFile) {
+
+        this.csvFile = csvFile;
     }
 }
