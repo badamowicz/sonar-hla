@@ -47,14 +47,16 @@ import com.github.badamowicz.sonar.hla.helper.Converter;
  */
 public class Project implements IProject {
 
-    private static final Logger     LOG                 = Logger.getLogger(Project.class);
+    private static final Logger      LOG                 = Logger.getLogger(Project.class);
 
-    private static final String     VALUE_NOT_AVAILABLE = "n/a";
-    private String                  id                  = null;
-    private List<HLAMeasure>        hlaMeasure          = null;
-    private Map<HLAMeasure, String> values              = null;
-    private Resource                resource            = null;
-    private String                  version             = null;
+    public static final String       VALUE_NOT_AVAILABLE = "n/a";
+    private String                   id                  = null;
+    private List<HLAMeasure>         hlaMeasure          = null;
+    private Map<HLAMeasure, String>  values              = null;
+    private Map<HLAMeasure, Integer> valuesInt           = null;
+    private Map<HLAMeasure, Double>  valuesDouble        = null;
+    private Resource                 resource            = null;
+    private String                   version             = null;
 
     /**
      * Don't use constructor. Use {@link Project#Project(String, Resource)} instead.
@@ -86,6 +88,8 @@ public class Project implements IProject {
         String currValue = null;
 
         setValues(new HashMap<HLAMeasure, String>());
+        setValuesInt(new HashMap<HLAMeasure, Integer>());
+        setValuesDouble(new HashMap<HLAMeasure, Double>());
         setMeasures(new ArrayList<HLAMeasure>());
         setVersion(getResource().getVersion());
 
@@ -101,6 +105,8 @@ public class Project implements IProject {
                 LOG.debug("Value is: " + currValue);
 
                 getValues().put(currMeasure, currValue != null ? currValue : VALUE_NOT_AVAILABLE);
+                getValuesInt().put(currMeasure, currSonarMeasure.getIntValue());
+                getValuesDouble().put(currMeasure, currSonarMeasure.getValue());
                 getMeasures().add(currMeasure);
             }
         }
@@ -168,5 +174,37 @@ public class Project implements IProject {
     private void setVersion(String version) {
 
         this.version = version;
+    }
+
+    @Override
+    public Double getMeasureDoubleValue(HLAMeasure measure) {
+
+        return getValuesDouble().get(measure);
+    }
+
+    @Override
+    public Integer getMeasureIntValue(HLAMeasure measure) {
+
+        return getValuesInt().get(measure);
+    }
+
+    Map<HLAMeasure, Integer> getValuesInt() {
+
+        return valuesInt;
+    }
+
+    private void setValuesInt(Map<HLAMeasure, Integer> valuesInt) {
+
+        this.valuesInt = valuesInt;
+    }
+
+    Map<HLAMeasure, Double> getValuesDouble() {
+
+        return valuesDouble;
+    }
+
+    private void setValuesDouble(Map<HLAMeasure, Double> valuesDouble) {
+
+        this.valuesDouble = valuesDouble;
     }
 }

@@ -38,8 +38,8 @@ import org.sonar.wsclient.services.ResourceQuery;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
+import com.github.badamowicz.sonar.hla.api.IProjectAggregated;
 import com.github.badamowicz.sonar.hla.api.ISonarExtractor;
-
 
 /**
  * Concrete implementation of the {@link ISonarExtractor}. Accesses SonarQube's web services.
@@ -51,12 +51,12 @@ public class DefaultSonarExtractor implements ISonarExtractor {
 
     private static final String MSG_FOUND = "Found ";
 
-    private static final Logger LOG      = Logger.getLogger(DefaultSonarExtractor.class);
+    private static final Logger LOG       = Logger.getLogger(DefaultSonarExtractor.class);
 
-    private Sonar               sonar    = null;
-    private String              hostURL  = null;
-    private String              userName = null;
-    private String              password = null;
+    private Sonar               sonar     = null;
+    private String              hostURL   = null;
+    private String              userName  = null;
+    private String              password  = null;
 
     /**
      * Don't use constructor.
@@ -186,6 +186,12 @@ public class DefaultSonarExtractor implements ISonarExtractor {
     public String toString() {
 
         return "DefaultSonarExtractor Host: " + getHostURL() + " User: " + (getUserName() != null ? getUserName() : "n/a");
+    }
+
+    @Override
+    public IProjectAggregated getProjectAggregated(String name, String projectKeyPattern) {
+
+        throw new RuntimeException("Method not yet implemented!");
     }
 
 }

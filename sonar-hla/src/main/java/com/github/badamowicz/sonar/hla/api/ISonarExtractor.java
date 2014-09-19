@@ -59,6 +59,16 @@ public interface ISonarExtractor {
     public IProject getProject(String projectKey);
 
     /**
+     * Retrieve an aggregated project consisting of a set of real projects.
+     * 
+     * @param name The name the generated aggregated project will be assigned to.
+     * @param projectKeyPattern A pattern matching the desired project names or null. If this value is null, all projects from
+     *        SonarQube will be used.
+     * @return A new project containing aggregated values from all selected projects.
+     */
+    public IProjectAggregated getProjectAggregated(String name, String projectKeyPattern);
+
+    /**
      * Get all available Projects on this particular SonarQube.
      * 
      * @return A list of all projects or an empty list if none found.

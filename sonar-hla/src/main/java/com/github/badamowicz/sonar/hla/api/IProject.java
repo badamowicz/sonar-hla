@@ -69,4 +69,20 @@ public interface IProject {
      * @return The value or a default string.
      */
     public String getMeasureValue(HLAMeasure measure, boolean cleaned);
+
+    /**
+     * Method will try to retrieve the value for the given measure.
+     * 
+     * @param measure The {@link HLAMeasure} to be retrieved.
+     * @return The {@link Double} value if available or <b>null</b>.
+     */
+    public Double getMeasureDoubleValue(HLAMeasure measure);
+
+    /**
+     * Method will try to retrieve the value for the given measure.
+     * 
+     * @param measure The {@link HLAMeasure} to be retrieved.
+     * @return the {@link Integer} value of this measure if available or <b>null</b>.
+     */
+    public Integer getMeasureIntValue(HLAMeasure measure);
 }

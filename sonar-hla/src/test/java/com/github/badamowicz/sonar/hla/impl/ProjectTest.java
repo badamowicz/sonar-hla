@@ -42,7 +42,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
-import com.github.badamowicz.sonar.hla.impl.Project;
 
 /**
  * Test cases for {@link Project} type.
@@ -51,28 +50,33 @@ import com.github.badamowicz.sonar.hla.impl.Project;
  */
 public class ProjectTest {
 
-    private static final String  VERSION        = "0815";
-    private Resource             resource       = null;
-    private Measure              measure1       = null;
-    private Measure              measure2       = null;
-    private List<Measure>        measureList    = null;
-    private Project              project        = null;
+    private static final String  VERSION                     = "0815";
+    private Resource             resource                    = null;
+    private Measure              measure1                    = null;
+    private Measure              measure2                    = null;
+    private List<Measure>        measureList                 = null;
+    private Project              project                     = null;
 
-    private static final String  ID             = "some:id";
-    private static final String  VALUE_LOCS     = "4567";
-    private static final String  VALUE_COVERAGE = "75.0%";
-    private static final Pattern PATTERN_ID     = Pattern.compile("Project.*ID.*");
+    private static final String  ID                          = "some:id";
+    private static final String  VALUE_LOCS                  = "4567";
+    private static final String  VALUE_COVERAGE              = "75.0";
+    private static final String  VALUE_COVERAGE_WITH_PERCENT = VALUE_COVERAGE + "%";
+    private static final Double  DOUBLE_VALUE_COVERAGE       = Double.valueOf(VALUE_COVERAGE);
+    private static final Integer INT_VALUE_LOCS              = Integer.getInteger(VALUE_LOCS);
+    private static final Pattern PATTERN_ID                  = Pattern.compile("Project.*ID.*");
 
     @BeforeClass
     public void beforeClass() {
 
         measure1 = new Measure();
         measure1.setMetricKey(HLAMeasure.COVERAGE.getSonarName());
-        measure1.setFormattedValue(VALUE_COVERAGE);
+        measure1.setFormattedValue(VALUE_COVERAGE_WITH_PERCENT);
+        measure1.setValue(DOUBLE_VALUE_COVERAGE);
 
         measure2 = new Measure();
         measure2.setMetricKey(HLAMeasure.LOCS.getSonarName());
         measure2.setFormattedValue(VALUE_LOCS);
+        measure2.setVar(INT_VALUE_LOCS);
 
         measureList = new ArrayList<Measure>();
         measureList.add(measure1);
@@ -83,6 +87,31 @@ public class ProjectTest {
         resource.setVersion(VERSION);
 
         project = new Project(ID, resource);
+    }
+
+    @Test
+    public void getMeasureLongValue() {
+
+        assertEquals(project.getMeasureDoubleValue(HLAMeasure.COVERAGE), DOUBLE_VALUE_COVERAGE,
+                "No Double value for coverage available!");
+    }
+
+    @Test
+    public void getMeasureIntValue() {
+
+        assertEquals(project.getMeasureIntValue(HLAMeasure.LOCS), INT_VALUE_LOCS, "No Integer value for LOCS available!");
+    }
+
+    @Test
+    public void getValuesInt() {
+
+        assertNotNull(project.getValuesInt(), "Map for Integer values not initialized!");
+    }
+
+    @Test
+    public void getValuesLong() {
+
+        assertNotNull(project.getValuesDouble(), "Map for Double values not initialized!");
     }
 
     @Test
@@ -100,7 +129,8 @@ public class ProjectTest {
     @Test
     public void getMeasureValue() {
 
-        assertEquals(project.getMeasureValue(HLAMeasure.COVERAGE, false), VALUE_COVERAGE, "Value for coverage not as expected!");
+        assertEquals(project.getMeasureValue(HLAMeasure.COVERAGE, false), VALUE_COVERAGE_WITH_PERCENT,
+                "Value for coverage not as expected!");
         assertEquals(project.getMeasureValue(HLAMeasure.LOCS, false), VALUE_LOCS, "Value for LOC not as expected!");
     }
 
@@ -127,7 +157,8 @@ public class ProjectTest {
     public void getMeasureValueClean() {
 
         assertEquals(project.getMeasureValue(HLAMeasure.COVERAGE, true),
-                VALUE_COVERAGE.substring(0, VALUE_COVERAGE.length() - 1), "Cleaned value not returned as expected!");
+                VALUE_COVERAGE_WITH_PERCENT.substring(0, VALUE_COVERAGE_WITH_PERCENT.length() - 1),
+                "Cleaned value not returned as expected!");
     }
 
     /**
