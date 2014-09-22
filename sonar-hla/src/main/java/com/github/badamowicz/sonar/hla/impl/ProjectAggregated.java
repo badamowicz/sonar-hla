@@ -47,6 +47,7 @@ public class ProjectAggregated implements IProjectAggregated {
     private String                        name             = null;
     private List<IProject>                projects         = null;
     private List<HLAMeasure>              measures         = null;
+    private List<String>                  projectIDs       = null;
 
     private Map<HLAMeasure, String>       values           = null;
     private Map<HLAMeasure, Integer>      valuesInt        = null;
@@ -81,13 +82,19 @@ public class ProjectAggregated implements IProjectAggregated {
         setProjects(projects);
         setAmountProjects(getProjects().size());
 
+        values = new HashMap<HLAMeasure, String>();
         calculateAvailableMeasures();
         calculateSumMeasures();
         calculateAvgMeasures();
+        initProjectIDs();
+    }
 
-        // init project ids
+    private void initProjectIDs() {
 
-        // merge values of all data types
+        projectIDs = new ArrayList<String>();
+
+        for (IProject currProject : getProjects())
+            projectIDs.add(currProject.getId());
     }
 
     private void calculateAvgMeasures() {
@@ -105,9 +112,13 @@ public class ProjectAggregated implements IProjectAggregated {
                 if (getMeasures().contains(currMeasure))
                     sum += currProject.getMeasureDoubleValue(currMeasure).doubleValue();
 
-            avg = sum / getAmountProjects();
-            valuesDouble.put(currMeasure, Double.valueOf(avg));
-            LOG.debug("Measure " + currMeasure.getSonarName() + " calculated to " + avg);
+            if (getMeasures().contains(currMeasure)) {
+
+                avg = sum / getAmountProjects();
+                valuesDouble.put(currMeasure, Double.valueOf(avg));
+                values.put(currMeasure, Double.toString(avg));
+                LOG.debug("Measure " + currMeasure.getSonarName() + " calculated to " + avg);
+            }
         }
     }
 
@@ -125,8 +136,12 @@ public class ProjectAggregated implements IProjectAggregated {
                 if (getMeasures().contains(currMeasure))
                     sum += currProject.getMeasureIntValue(currMeasure).intValue();
 
-            valuesInt.put(currMeasure, Integer.valueOf(sum));
-            LOG.debug("Measure " + currMeasure.getSonarName() + " calculated to " + sum);
+            if (getMeasures().contains(currMeasure)) {
+
+                valuesInt.put(currMeasure, Integer.valueOf(sum));
+                values.put(currMeasure, Integer.toString(sum));
+                LOG.debug("Measure " + currMeasure.getSonarName() + " calculated to " + sum);
+            }
         }
     }
 
@@ -193,11 +208,14 @@ public class ProjectAggregated implements IProjectAggregated {
         return measures;
     }
 
+    /**
+     * Beware that for this aggregated project type the value for <i>cleaned</i> is not used. Values are always returned without
+     * any additional characters.
+     */
     @Override
     public String getMeasureValue(HLAMeasure measure, boolean cleaned) {
 
-        // TODO Auto-generated method stub
-        return null;
+        return values.get(measure);
     }
 
     @Override
@@ -221,8 +239,7 @@ public class ProjectAggregated implements IProjectAggregated {
     @Override
     public List<String> getProjectIDs() {
 
-        // TODO Auto-generated method stub
-        return null;
+        return projectIDs;
     }
 
     List<IProject> getProjects() {
