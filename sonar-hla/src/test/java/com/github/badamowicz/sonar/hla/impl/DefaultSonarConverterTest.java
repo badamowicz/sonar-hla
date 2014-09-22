@@ -76,7 +76,7 @@ public class DefaultSonarConverterTest {
     private String                csvData                = null;
     private String                csvDataSurrounded      = null;
     private File                  csvFile                = null;
-    private File                  csvShortcutFile       = null;
+    private File                  csvShortcutFile        = null;
 
     private static final String   KEY_1                  = "some.project:key1";
     private static final String   KEY_2                  = "some.project:key2";

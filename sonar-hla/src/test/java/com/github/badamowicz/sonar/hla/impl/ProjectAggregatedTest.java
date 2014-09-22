@@ -29,16 +29,10 @@ package com.github.badamowicz.sonar.hla.impl;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
-import com.github.badamowicz.sonar.hla.api.IProject;
 
 /**
  * Test cases for {@link ProjectAggregated} type.
@@ -46,90 +40,12 @@ import com.github.badamowicz.sonar.hla.api.IProject;
  * @author bernd
  *
  */
-public class ProjectAggregatedTest {
-
-    /**
-     * For the ease of testing we use simply one integer for all integer values.
-     */
-    private static final int         INT_VALUE            = 100;
-
-    private static final int         INT_RESULT           = INT_VALUE * 2;
-
-    private ProjectAggregated        projectAgg           = null;
-    private ProjectAggregated        projectAggIncomplete = null;
-    private ProjectMock              project1             = null;
-    private ProjectMock              project2             = null;
-    private ProjectMock              projectIncomplete    = null;
-
-    private Map<HLAMeasure, Integer> valuesIntP1          = null;
-    private Map<HLAMeasure, Double>  valuesDoubleP1       = null;
-    private Map<HLAMeasure, Integer> valuesIntP2          = null;
-    private Map<HLAMeasure, Double>  valuesDoubleP2       = null;
-    private Map<HLAMeasure, Integer> valuesIntP3          = null;
-    private Map<HLAMeasure, Double>  valuesDoubleP3       = null;
-    private List<IProject>           projects             = null;
-    private List<IProject>           projectsIncomplete   = null;
-    private static final String      NAME                 = "Unit test";
+public class ProjectAggregatedTest extends ProjectAggregatedHelper {
 
     @BeforeClass
     public void beforeClass() {
 
-        valuesDoubleP1 = new HashMap<HLAMeasure, Double>();
-        valuesDoubleP1.put(HLAMeasure.CMPLX, 70.0);
-        valuesDoubleP1.put(HLAMeasure.COVERAGE, 60.0);
-
-        valuesIntP1 = new HashMap<HLAMeasure, Integer>();
-        valuesIntP1.put(HLAMeasure.DUPLINES, INT_VALUE);
-        valuesIntP1.put(HLAMeasure.ISSUES_ALL, INT_VALUE);
-        valuesIntP1.put(HLAMeasure.ISSUES_BLOCKER, INT_VALUE);
-        valuesIntP1.put(HLAMeasure.ISSUES_CRITICAL, INT_VALUE);
-        valuesIntP1.put(HLAMeasure.ISSUES_INFO, INT_VALUE);
-        valuesIntP1.put(HLAMeasure.ISSUES_MAJOR, INT_VALUE);
-        valuesIntP1.put(HLAMeasure.ISSUES_MINOR, INT_VALUE);
-        valuesIntP1.put(HLAMeasure.LOCS, INT_VALUE);
-
-        valuesDoubleP2 = new HashMap<HLAMeasure, Double>();
-        valuesDoubleP2.put(HLAMeasure.CMPLX, 30.0);
-        valuesDoubleP2.put(HLAMeasure.COVERAGE, 40.0);
-
-        valuesIntP2 = new HashMap<HLAMeasure, Integer>();
-        valuesIntP2.put(HLAMeasure.DUPLINES, INT_VALUE);
-        valuesIntP2.put(HLAMeasure.ISSUES_ALL, INT_VALUE);
-        valuesIntP2.put(HLAMeasure.ISSUES_BLOCKER, INT_VALUE);
-        valuesIntP2.put(HLAMeasure.ISSUES_CRITICAL, INT_VALUE);
-        valuesIntP2.put(HLAMeasure.ISSUES_INFO, INT_VALUE);
-        valuesIntP2.put(HLAMeasure.ISSUES_MAJOR, INT_VALUE);
-        valuesIntP2.put(HLAMeasure.ISSUES_MINOR, INT_VALUE);
-        valuesIntP2.put(HLAMeasure.LOCS, INT_VALUE);
-
-        valuesDoubleP3 = new HashMap<HLAMeasure, Double>();
-        valuesDoubleP3.put(HLAMeasure.CMPLX, 30.0);
-
-        valuesIntP3 = new HashMap<HLAMeasure, Integer>();
-        valuesIntP3.put(HLAMeasure.DUPLINES, 12);
-        valuesIntP3.put(HLAMeasure.ISSUES_ALL, INT_VALUE);
-        valuesIntP3.put(HLAMeasure.ISSUES_BLOCKER, INT_VALUE);
-        valuesIntP3.put(HLAMeasure.ISSUES_CRITICAL, INT_VALUE);
-        valuesIntP3.put(HLAMeasure.ISSUES_INFO, null);
-        valuesIntP3.put(HLAMeasure.ISSUES_MAJOR, INT_VALUE);
-        valuesIntP3.put(HLAMeasure.ISSUES_MINOR, INT_VALUE);
-        valuesIntP3.put(HLAMeasure.LOCS, null);
-
-        project1 = new ProjectMock("1", valuesIntP1, valuesDoubleP1);
-        project2 = new ProjectMock("2", valuesIntP2, valuesDoubleP2);
-        projectIncomplete = new ProjectMock("incomplete", valuesIntP3, valuesDoubleP3);
-
-        projects = new ArrayList<IProject>();
-        projects.add(project1);
-        projects.add(project2);
-
-        projectsIncomplete = new ArrayList<IProject>();
-        projectsIncomplete.add(project1);
-        projectsIncomplete.add(project2);
-        projectsIncomplete.add(projectIncomplete);
-
-        projectAgg = new ProjectAggregated(NAME, projects);
-        projectAggIncomplete = new ProjectAggregated("incomplete", projectsIncomplete);
+        prepare();
     }
 
     @Test

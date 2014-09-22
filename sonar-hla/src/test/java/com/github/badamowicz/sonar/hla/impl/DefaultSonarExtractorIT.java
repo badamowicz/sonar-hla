@@ -38,6 +38,7 @@ import org.testng.annotations.Test;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
+import com.github.badamowicz.sonar.hla.api.IProjectAggregated;
 import com.github.badamowicz.sonar.hla.api.ISonarConverter;
 
 /**
@@ -47,6 +48,8 @@ import com.github.badamowicz.sonar.hla.api.ISonarConverter;
  * Created Aug 12, 2014 10:03:27 AM by bernd
  */
 public class DefaultSonarExtractorIT {
+
+    private static final String   INTEGRATION_TEST  = "Integration test";
 
     static final Logger           LOG               = Logger.getLogger(DefaultSonarExtractorIT.class);
 
@@ -66,6 +69,16 @@ public class DefaultSonarExtractorIT {
         extractor = new DefaultSonarExtractor(URL, USER, PASSWORD);
         extractorHostOnly = new DefaultSonarExtractor(URL);
         converter = new DefaultSonarConverter();
+    }
+
+    @Test
+    public void getProjectAggregated() {
+
+        IProjectAggregated projectAgg = null;
+
+        projectAgg = extractor.getProjectAggregated(INTEGRATION_TEST, PROJECT_PATTERN);
+        assertEquals(projectAgg.getProjectIDs().size(), 2, "Wrong amount of projects retrieved!");
+        assertEquals(projectAgg.getName(), INTEGRATION_TEST, "Wrong name for aggregated project retrieved!");
     }
 
     @Test

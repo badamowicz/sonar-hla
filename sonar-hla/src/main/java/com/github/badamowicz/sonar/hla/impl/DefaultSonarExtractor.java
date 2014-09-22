@@ -191,7 +191,14 @@ public class DefaultSonarExtractor implements ISonarExtractor {
     @Override
     public IProjectAggregated getProjectAggregated(String name, String projectKeyPattern) {
 
-        throw new RuntimeException("Method not yet implemented!");
+        IProjectAggregated projectAgg = null;
+        List<IProject> projects = null;
+
+        projects = getProjects(projectKeyPattern);
+        projectAgg = new ProjectAggregated(name, projects);
+        LOG.debug("New aggregated project '" + name + "' created based on " + projects.size() + " projects.");
+
+        return projectAgg;
     }
 
 }

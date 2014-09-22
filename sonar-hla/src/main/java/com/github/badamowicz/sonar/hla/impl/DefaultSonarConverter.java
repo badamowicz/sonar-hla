@@ -30,8 +30,10 @@ import static com.github.badamowicz.sonar.hla.api.HLAConstants.SEP;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -41,6 +43,7 @@ import org.apache.log4j.Logger;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
+import com.github.badamowicz.sonar.hla.api.IProjectAggregated;
 import com.github.badamowicz.sonar.hla.api.ISonarConverter;
 import com.github.badamowicz.sonar.hla.exceptions.SonarProcessingException;
 
@@ -50,6 +53,8 @@ import com.github.badamowicz.sonar.hla.exceptions.SonarProcessingException;
  * Created Aug 11, 2014 5:03:39 PM by bernd
  */
 public class DefaultSonarConverter implements ISonarConverter {
+
+    private static final String PROJECT   = "Project";
 
     private static final Logger LOG       = Logger.getLogger(DefaultSonarConverter.class);
 
@@ -72,7 +77,7 @@ public class DefaultSonarConverter implements ISonarConverter {
         HLAMeasure currMeasure = null;
         Iterator<HLAMeasure> iterMeasure = null;
 
-        builder = new StringBuilder("Project");
+        builder = new StringBuilder(PROJECT);
         builder.append(SEP);
         iterMeasure = hlaMeasure.iterator();
 
@@ -105,6 +110,50 @@ public class DefaultSonarConverter implements ISonarConverter {
 
             builder.append(BREAK);
         }
+
+        return builder.toString();
+    }
+
+    @Override
+    public String getCSVData(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures) {
+
+        StringBuilder builder = null;
+        HLAMeasure currMeasure = null;
+        List<HLAMeasure> usedMeasures = null;
+        Iterator<HLAMeasure> iterMeasure = null;
+
+        usedMeasures = new ArrayList<HLAMeasure>();
+        for (HLAMeasure currentMeasure : hlaMeasures)
+            if (projectAgg.getMeasures().contains(currentMeasure))
+                usedMeasures.add(currentMeasure);
+
+        builder = new StringBuilder(PROJECT);
+        builder.append(SEP);
+        iterMeasure = usedMeasures.iterator();
+
+        while (iterMeasure.hasNext()) {
+
+            currMeasure = iterMeasure.next();
+            builder.append(currMeasure.getHeaderName());
+
+            if (iterMeasure.hasNext())
+                builder.append(SEP);
+        }
+
+        builder.append(BREAK);
+        builder.append(projectAgg.getName()).append(SEP);
+        iterMeasure = usedMeasures.iterator();
+
+        while (iterMeasure.hasNext()) {
+
+            currMeasure = iterMeasure.next();
+            builder.append(projectAgg.getMeasureValue(currMeasure, false));
+
+            if (iterMeasure.hasNext())
+                builder.append(SEP);
+        }
+
+        builder.append(BREAK);
 
         return builder.toString();
     }
@@ -167,6 +216,12 @@ public class DefaultSonarConverter implements ISonarConverter {
     }
 
     @Override
+    public InputStream getCSVDataAsStream(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures) {
+
+        return new ByteArrayInputStream(getCSVData(projectAgg, hlaMeasures).getBytes());
+    }
+
+    @Override
     public String toString() {
 
         return "DefaultSonarConverter with CSV separator: " + SEP;
@@ -189,16 +244,24 @@ public class DefaultSonarConverter implements ISonarConverter {
 
             csvData = getCSVData(projects, hlaMeasure, cleanValues, surroundFields);
             file = new File(fileName);
-            LOG.debug("Will try to write CSV data to file: " + file.getAbsolutePath());
-            FileUtils.writeStringToFile(file, csvData, Charset.forName(ENCODING), false);
-            LOG.debug("Finished writing CSV data to file: " + file.getAbsolutePath());
+            writeFile(file, csvData);
 
         } catch (Exception e) {
 
-            throw new SonarProcessingException("Could not write CSV data to file!", e);
+            throw new SonarProcessingException("Could not write CSV data to file: " + fileName, e);
         }
 
         return file;
+    }
+
+    /**
+     * Write the given string to the file provided.
+     */
+    private void writeFile(File file, String csvData) throws IOException {
+
+        LOG.debug("Will try to write CSV data to file: " + file.getAbsolutePath());
+        FileUtils.writeStringToFile(file, csvData, Charset.forName(ENCODING), false);
+        LOG.debug("Finished writing CSV data to file: " + file.getAbsolutePath());
     }
 
     @Override
@@ -210,8 +273,28 @@ public class DefaultSonarConverter implements ISonarConverter {
 
         } catch (Exception e) {
 
-            throw new SonarProcessingException("Could not write given data to file! : " + fileName, e);
+            throw new SonarProcessingException("Could not write given data to file: " + fileName, e);
         }
 
+    }
+
+    @Override
+    public File getCSVDataAsFile(String fileName, IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures) {
+
+        File file = null;
+        String csvData = null;
+
+        try {
+
+            csvData = getCSVData(projectAgg, hlaMeasures);
+            file = new File(fileName);
+            writeFile(file, csvData);
+
+        } catch (Exception e) {
+
+            throw new SonarProcessingException("Could not write CSV data to file: " + fileName, e);
+        }
+
+        return file;
     }
 }

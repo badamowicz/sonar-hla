@@ -40,6 +40,34 @@ import java.util.List;
 public interface ISonarConverter {
 
     /**
+     * Create CSV data based on the given aggregated project.
+     * 
+     * @param projectAgg The aggregated project.
+     * @param hlaMeasures The measures to be used for output.
+     * @return The string containing the CSV data.
+     */
+    public String getCSVData(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures);
+
+    /**
+     * Create CSV data as input stream based on the given aggregated project.
+     * 
+     * @param projectAgg The aggregated project.
+     * @param hlaMeasures The measures to be used for output.
+     * @return The {@link InputStream} containing the CSV data.
+     */
+    public InputStream getCSVDataAsStream(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures);
+
+    /**
+     * Create CSV data as a file based on the given aggregated project.
+     * 
+     * @param fileName The name / path of the file to be generated.
+     * @param projectAgg The aggregated project.
+     * @param hlaMeasures The measures to be used for output.
+     * @return The {@link File} containing the CSV data.
+     */
+    public File getCSVDataAsFile(String fileName, IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures);
+
+    /**
      * Convert the given projects into a string of CSV data. The fields will not be surrounded with any quotation marks.
      * 
      * @param projects A list of projects.

@@ -75,7 +75,7 @@ public class ProjectAggregated implements IProjectAggregated {
      * @param name A name describing this project.
      * @param projects The list of projects which will be used for aggregating all internal values.
      */
-    public ProjectAggregated(String name, List<IProject> projects) {
+    ProjectAggregated(String name, List<IProject> projects) {
 
         this();
         setName(name);
