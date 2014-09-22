@@ -37,6 +37,7 @@ import org.apache.maven.plugin.MojoFailureException;
 
 import com.github.badamowicz.sonar.hla.api.HLAMeasure;
 import com.github.badamowicz.sonar.hla.api.IProject;
+import com.github.badamowicz.sonar.hla.api.IProjectAggregated;
 import com.github.badamowicz.sonar.hla.api.ISonarConverter;
 import com.github.badamowicz.sonar.hla.api.ISonarExtractor;
 import com.github.badamowicz.sonar.hla.impl.SonarHLAFactory;
@@ -55,6 +56,8 @@ public class ExtractorMojo extends AbstractMojo {
 
     private static final Logger LOG               = Logger.getLogger(ExtractorMojo.class);
     private static final Logger LOG_INFO          = Logger.getLogger("USER_DATA");
+
+    private static final String AGG_PROJ_NAME     = "Aggregated Project";
 
     /**
      * The URL pointing to the SonarQube host.
@@ -132,6 +135,16 @@ public class ExtractorMojo extends AbstractMojo {
     private String              csvFile           = null;
 
     /**
+     * If this parameter is set to true, be sure to also give a project pattern using the 'projectKeyPattern' property. Then all
+     * values of all selected projects will be aggregated. That is, either the sum or the average is calculated from all measures
+     * of all projects. The result is then a single aggregated project and the CSV content will contain only one line with these
+     * aggregated data.
+     * 
+     * @parameter property="aggregate"
+     */
+    private boolean             aggregate         = false;
+
+    /**
      * The internal list of {@link HLAMeasure} used for initializing Sonar-HLA. Will be filled accordingly to what is given in
      * parameter {@link #measures}.
      */
@@ -175,9 +188,41 @@ public class ExtractorMojo extends AbstractMojo {
      */
     private String createCSV() {
 
+        String csvData = null;
+
+        if (isAggregate())
+            csvData = createAggregatedProjectCSV();
+        else
+            csvData = createMultiProjectCSV();
+
+        return csvData;
+    }
+
+    private String createAggregatedProjectCSV() {
+
+        String csvData = null;
+        IProjectAggregated project = null;
+
+        project = getExtractor().getProjectAggregated(AGG_PROJ_NAME, getProjectKeyPattern());
+        csvData = getConverter().getCSVData(project, getMeasureObjects());
+
+        LOG.info("Created aggregated project with pattern '" + getProjectKeyPattern() + "'.");
+        LOG.info("Generated CSV is based on these projects:");
+
+        for (String currProj : project.getProjectIDs())
+            LOG.info(currProj);
+
+        return csvData;
+    }
+
+    /**
+     * Create CSV by using all the projects provided.
+     */
+    private String createMultiProjectCSV() {
+
+        String csvData = null;
         List<IProject> projects = null;
         IProject project = null;
-        String csvData = null;
 
         if (isProjectKeyProvided()) {
 
@@ -195,7 +240,7 @@ public class ExtractorMojo extends AbstractMojo {
         }
 
         csvData = getConverter().getCSVData(projects, getMeasureObjects(), isCleanValues(), isSurroundFields());
-        LOG.debug("Retrieved projects and generated CSV data.");
+        LOG.info("Retrieved projects and generated CSV data.");
 
         return csvData;
     }
@@ -245,6 +290,9 @@ public class ExtractorMojo extends AbstractMojo {
         if (isProjectKeyProvided() && isProjectKeyPatternProvided())
             throw new MojoFailureException(
                     "You must not give values for both 'projectKey' and 'projectKeyPattern'!\n Use either only one of it or none at all.");
+
+        if (isAggregate() && !isProjectKeyPatternProvided())
+            throw new MojoFailureException("For creating an aggregated project, a project key pattern must be provided!");
     }
 
     public String getHostUrl() {
@@ -365,5 +413,15 @@ public class ExtractorMojo extends AbstractMojo {
     public void setCsvFile(String csvFile) {
 
         this.csvFile = csvFile;
+    }
+
+    public boolean isAggregate() {
+
+        return aggregate;
+    }
+
+    public void setAggregate(boolean aggregate) {
+
+        this.aggregate = aggregate;
     }
 }

@@ -44,18 +44,20 @@ import com.github.badamowicz.sonar.hla.api.HLAMeasure;
  */
 public class ExtractorMojoTest {
 
-    private static final String  URL         = "http://somehost:9090";
-    private static final String  USER        = "Heinz";
-    private static final String  PASSWORD    = "Ketchup";
-    private static final String  PROJECT_KEY = "some:key";
-    private static final String  PATTERN     = "some:.*";
-    private static final String  MEASURES    = "ncloc,coverage,duplicated_lines";
-    private static final Boolean CLEAN_VALUE = true;
-    private static final Boolean SURROUND    = true;
-    private static final String  CSV_FILE    = "/some/file/somewhere.csv";
+    private static final String  URL               = "http://somehost:9090";
+    private static final String  USER              = "Heinz";
+    private static final String  PASSWORD          = "Ketchup";
+    private static final String  PROJECT_KEY       = "some:key";
+    private static final String  PATTERN           = "some:.*";
+    private static final String  MEASURES          = "ncloc,coverage,duplicated_lines";
+    private static final Boolean CLEAN_VALUE       = true;
+    private static final Boolean SURROUND          = true;
+    private static final String  CSV_FILE          = "/some/file/somewhere.csv";
+    private static final boolean AGGREGATED        = true;
 
-    private ExtractorMojo        mojo        = null;
-    private ExtractorMojo        mojoEmpty   = null;
+    private ExtractorMojo        mojo              = null;
+    private ExtractorMojo        mojoEmpty         = null;
+    private ExtractorMojo        mojoAggregateFail = null;
 
     @BeforeClass
     public void beforeClass() {
@@ -70,8 +72,12 @@ public class ExtractorMojoTest {
         mojo.setProjectKeyPattern(PATTERN);
         mojo.setProjectKey(PROJECT_KEY);
         mojo.setCsvFile(CSV_FILE);
+        mojo.setAggregate(AGGREGATED);
 
         mojoEmpty = new ExtractorMojo();
+
+        mojoAggregateFail = new ExtractorMojo();
+        mojoAggregateFail.setAggregate(true);
     }
 
     @Test
@@ -80,6 +86,12 @@ public class ExtractorMojoTest {
         mojo.prepare();
         assertNotNull(mojo.getConverter(), "No converter initialized!");
         assertNotNull(mojo.getExtractor(), "No extractor initialized!");
+    }
+
+    @Test
+    public void isAggregated() {
+
+        assertEquals(mojo.isAggregate(), AGGREGATED);
     }
 
     @Test
@@ -156,5 +168,11 @@ public class ExtractorMojoTest {
     public void validate() throws MojoFailureException {
 
         mojo.validate();
+    }
+
+    @Test(expectedExceptions = MojoFailureException.class)
+    public void validateMissingPattern() throws MojoFailureException {
+
+        mojoAggregateFail.validate();
     }
 }
