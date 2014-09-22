@@ -84,12 +84,6 @@
               <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
               <postBuildHookScript>verify.groovy</postBuildHookScript>
               <addTestClassPath>true</addTestClassPath>
-
-              <!-- Set this to the URL fragment which points to your templates. -->
-              <!-- Look at an IT POM to see where the replacement is done. -->
-              <filterProperties>
-                <svnPart>trunk</svnPart>
-              </filterProperties>
               <goals>
                 <goal>install</goal>
               </goals>
