@@ -204,7 +204,7 @@ public class ExtractorMojo extends AbstractMojo {
         IProjectAggregated project = null;
 
         project = getExtractor().getProjectAggregated(AGG_PROJ_NAME, getProjectKeyPattern());
-        csvData = getConverter().getCSVData(project, getMeasureObjects());
+        csvData = getConverter().getCSVData(project, getMeasureObjects(), isSurroundFields());
 
         LOG_INFO.info("Created aggregated project with pattern '" + getProjectKeyPattern() + "'.");
         LOG_INFO.info("Generated CSV is based on these projects:");

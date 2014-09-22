@@ -85,7 +85,7 @@ public class DefaultSonarConverterAggregatedTest extends ProjectAggregatedHelper
 
         String csv = null;
 
-        csv = converter.getCSVData(projectAgg, Arrays.asList(HLAMeasure.values()));
+        csv = converter.getCSVData(projectAgg, Arrays.asList(HLAMeasure.values()), false);
         assertEquals(csv, CSV_EXPECTED, "CSV data not created as expected!");
 
         LOG.debug("Got CSV data:");
@@ -97,7 +97,7 @@ public class DefaultSonarConverterAggregatedTest extends ProjectAggregatedHelper
 
         String csv = null;
 
-        csv = converter.getCSVData(projectAggIncomplete, Arrays.asList(HLAMeasure.values()));
+        csv = converter.getCSVData(projectAggIncomplete, Arrays.asList(HLAMeasure.values()), false);
         assertEquals(csv, CSV_INCOMPLETE, "CSV data not created as expected!");
 
         LOG.debug("Got CSV data:");
@@ -109,7 +109,7 @@ public class DefaultSonarConverterAggregatedTest extends ProjectAggregatedHelper
 
         String csvContent = null;
 
-        csvFile = converter.getCSVDataAsFile(csvFile.getAbsolutePath(), projectAgg, Arrays.asList(HLAMeasure.values()));
+        csvFile = converter.getCSVDataAsFile(csvFile.getAbsolutePath(), projectAgg, Arrays.asList(HLAMeasure.values()), false);
         assertNotNull(csvFile, "No CSV file generated!");
         assertTrue(csvFile.exists() && csvFile.isFile(), "Generated file does not exist!");
 
@@ -127,7 +127,7 @@ public class DefaultSonarConverterAggregatedTest extends ProjectAggregatedHelper
 
         try {
 
-            is = converter.getCSVDataAsStream(projectAgg, Arrays.asList(HLAMeasure.values()));
+            is = converter.getCSVDataAsStream(projectAgg, Arrays.asList(HLAMeasure.values()), false);
             assertNotNull(is, "No input stream generated!");
 
             sw = new StringWriter();

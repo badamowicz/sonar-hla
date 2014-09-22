@@ -44,18 +44,20 @@ public interface ISonarConverter {
      * 
      * @param projectAgg The aggregated project.
      * @param hlaMeasures The measures to be used for output.
+     * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
      * @return The string containing the CSV data.
      */
-    public String getCSVData(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures);
+    public String getCSVData(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures, boolean surroundFields);
 
     /**
      * Create CSV data as input stream based on the given aggregated project.
      * 
      * @param projectAgg The aggregated project.
      * @param hlaMeasures The measures to be used for output.
+     * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
      * @return The {@link InputStream} containing the CSV data.
      */
-    public InputStream getCSVDataAsStream(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures);
+    public InputStream getCSVDataAsStream(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures, boolean surroundFields);
 
     /**
      * Create CSV data as a file based on the given aggregated project.
@@ -63,9 +65,11 @@ public interface ISonarConverter {
      * @param fileName The name / path of the file to be generated.
      * @param projectAgg The aggregated project.
      * @param hlaMeasures The measures to be used for output.
+     * @param surroundFields If true, every single field of data will be surrounded with quotation marks.
      * @return The {@link File} containing the CSV data.
      */
-    public File getCSVDataAsFile(String fileName, IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures);
+    public File getCSVDataAsFile(String fileName, IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures,
+            boolean surroundFields);
 
     /**
      * Convert the given projects into a string of CSV data. The fields will not be surrounded with any quotation marks.

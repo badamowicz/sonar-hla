@@ -115,8 +115,9 @@ public class DefaultSonarConverter implements ISonarConverter {
     }
 
     @Override
-    public String getCSVData(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures) {
+    public String getCSVData(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures, boolean surroundFields) {
 
+        String csvData = null;
         StringBuilder builder = null;
         HLAMeasure currMeasure = null;
         List<HLAMeasure> usedMeasures = null;
@@ -155,7 +156,12 @@ public class DefaultSonarConverter implements ISonarConverter {
 
         builder.append(BREAK);
 
-        return builder.toString();
+        if (surroundFields)
+            csvData = surroundFields(builder.toString());
+        else
+            csvData = builder.toString();
+
+        return csvData;
     }
 
     @Override
@@ -216,9 +222,9 @@ public class DefaultSonarConverter implements ISonarConverter {
     }
 
     @Override
-    public InputStream getCSVDataAsStream(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures) {
+    public InputStream getCSVDataAsStream(IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures, boolean surroundFields) {
 
-        return new ByteArrayInputStream(getCSVData(projectAgg, hlaMeasures).getBytes());
+        return new ByteArrayInputStream(getCSVData(projectAgg, hlaMeasures, surroundFields).getBytes());
     }
 
     @Override
@@ -279,14 +285,15 @@ public class DefaultSonarConverter implements ISonarConverter {
     }
 
     @Override
-    public File getCSVDataAsFile(String fileName, IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures) {
+    public File getCSVDataAsFile(String fileName, IProjectAggregated projectAgg, List<HLAMeasure> hlaMeasures,
+            boolean surroundFields) {
 
         File file = null;
         String csvData = null;
 
         try {
 
-            csvData = getCSVData(projectAgg, hlaMeasures);
+            csvData = getCSVData(projectAgg, hlaMeasures, surroundFields);
             file = new File(fileName);
             writeFile(file, csvData);
 
