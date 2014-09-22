@@ -44,7 +44,7 @@ import com.github.badamowicz.sonar.hla.impl.SonarHLAFactory;
 import com.github.badamowicz.sonar.hla.plugin.helper.LogHelper;
 
 /**
- * Mojo is capable of extracting resource data from a SonarQube server. It will perform all necesary steps from extracting the
+ * Mojo is capable of extracting resource data from a SonarQube server. It will perform all necessary steps from extracting the
  * data up to providing those in an appropriate way.
  * <p>
  * Created Aug 14, 2014 10:46:39 AM by bernd
@@ -206,11 +206,11 @@ public class ExtractorMojo extends AbstractMojo {
         project = getExtractor().getProjectAggregated(AGG_PROJ_NAME, getProjectKeyPattern());
         csvData = getConverter().getCSVData(project, getMeasureObjects());
 
-        LOG.info("Created aggregated project with pattern '" + getProjectKeyPattern() + "'.");
-        LOG.info("Generated CSV is based on these projects:");
+        LOG_INFO.info("Created aggregated project with pattern '" + getProjectKeyPattern() + "'.");
+        LOG_INFO.info("Generated CSV is based on these projects:");
 
         for (String currProj : project.getProjectIDs())
-            LOG.info(currProj);
+            LOG_INFO.info(currProj);
 
         return csvData;
     }
@@ -240,7 +240,7 @@ public class ExtractorMojo extends AbstractMojo {
         }
 
         csvData = getConverter().getCSVData(projects, getMeasureObjects(), isCleanValues(), isSurroundFields());
-        LOG.info("Retrieved projects and generated CSV data.");
+        LOG_INFO.info("Retrieved projects and generated CSV data.");
 
         return csvData;
     }
