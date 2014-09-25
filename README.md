@@ -3,7 +3,7 @@ sonar-hla
 
 High Level API for accessing SonarQube resources.
 
-Intention of this project is to hide the complexity of of Sonar's Web Service Client
+Intention of this project is to hide the complexity of Sonar's Web Service Client
 and provide instead an easy to use API for accessing most important data from a 
 SonarQube server.
 
