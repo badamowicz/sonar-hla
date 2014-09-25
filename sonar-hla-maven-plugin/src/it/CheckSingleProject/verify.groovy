@@ -7,7 +7,7 @@ import org.apache.commons.io.FileUtils;
 
 println "\n##################################################################################"
 println ""
-println "Starting Integration Test CheckAllProjects-IT."
+println "Starting Integration Test CheckSingleProject-IT."
 println ""
 println "##################################################################################"
 
@@ -15,18 +15,18 @@ try {
     
     File csvFile = null;
     boolean success = true;
-    String csvData = null;
+    List<String> csvData = null;
     
     csvFile = new File(basedir, "projects.csv");
-	csvData = FileUtils.readFileToString(csvFile);
+	csvData = FileUtils.readLines(csvFile);
 	
-	if(csvData.isEmpty()) {
+	if(csvData.size() != 2) {
 	
-		println "No CSV data written to file!";
+		println "Only two lines of CSV data expected, but found " + csvData.size() + " !";
 		success = false;
 	} else {
 	
-	  println "Generated CSV data as expected!";
+	  println "Generated single project CSV data as expected!";
 	}
 
         
@@ -34,7 +34,7 @@ try {
 
     println "\n##################################################################################"
     println ""
-    println "Integration test CheckAllProjects-IT successful!\n"
+    println "Integration test CheckSingleProject-IT successful!\n"
     println ""
     println "##################################################################################"
  
@@ -44,7 +44,7 @@ try {
     
     println "\n##################################################################################"
     println ""
-    println "Integration test CheckAllProjects-IT failed:\n" + e.toString()
+    println "Integration test CheckSingleProject-IT failed:\n" + e.toString()
     println ""
     println "##################################################################################"
     

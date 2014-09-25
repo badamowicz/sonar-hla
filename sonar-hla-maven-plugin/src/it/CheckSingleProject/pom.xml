@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.github.badamowicz</groupId>
+  <artifactId>CheckSingleProject-IT</artifactId>
+  <version>@project.version@</version>
+  <packaging>pom</packaging>
+
+  <description>
+	    IT for checking if aggregated projects are retrieved
+	    from SonarQube and written to a file.
+    </description>
+
+  <name>CheckSingleProject-IT</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.badamowicz</groupId>
+        <artifactId>sonar-hla-maven-plugin</artifactId>
+        <version>@project.version@</version>
+        <configuration>
+          <hostUrl>http://localhost:9000</hostUrl>
+          <csvFile>projects.csv</csvFile>
+		  <projectKey>com.github.badamowicz:sonar-hla-parent</projectKey>
+        </configuration>
+        <executions>
+          <execution>
+            <id>extract</id>
+            <goals>
+              <goal>extract</goal>
+            </goals>
+            <phase>compile</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
