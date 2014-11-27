@@ -12,3 +12,7 @@ However, one release has already been created (0.3.1) which is also available in
 Maven Central. Have a look at the Wiki dokumentation to get the details.
 
 ![Build Status](https://travis-ci.org/badamowicz/sonar-hla.svg?branch=master)
+<br>
+<a href="https://scan.coverity.com/projects/3564">
+  <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/3564/badge.svg"/>
+</a>
