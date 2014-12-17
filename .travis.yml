@@ -16,4 +16,4 @@ addons:
     notification_email: info@bernd-adamowicz.de
     build_command_prepend: "mvn clean"
     build_command:   "mvn install"
-    branch_pattern: coverity_scan
+    branch_pattern: master
