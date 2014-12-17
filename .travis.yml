@@ -2,3 +2,18 @@ language: java
 jdk:
   - oraclejdk7
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "CcdpsNYWwEG2R0RV4W4qKADksO6y7kopEAMqwjv73MPeF392fdTxceSZaSPlfg34Ix3pGB/2pLmWqKgU2wRTUpIkGns0btLgyekHi68zt5QtgKFwn7aQGJmrEfqLUtZVp4oqgKQZvmRdq/Ejv3UR5Cz8VVrRDvxtzhm6y/q/5Ts="
+
+addons:
+  coverity_scan:
+    project:
+      name: "badamowicz/sonar-hla"
+      description: "High Level API for accessing SonarQube resources"
+    notification_email: info@bernd-adamowicz.de
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn install"
+    branch_pattern: coverity_scan
